@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostic Delay Detector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Diagnostic Delay Detector</h1>
+            <p>Detecting Late Presentation Signals in Healthcare Systems</p>
+            <a href="https://github.com/your-username/diagnostic-delay-detector" class="btn">View on GitHub</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>Healthcare systems worldwide face a critical challenge: patients arriving at hospitals with advanced, often preventable diseases. When diagnoses are delayed, patients present with higher clinical severity, require more intensive medical treatment, and face worse outcomes.</p>
+            <p><strong>How can diagnostic delay be detected when direct patient timeline data is unavailable?</strong></p>
+            <p>This project uses a <strong>proxy-based approach</strong>. Instead of tracking individual patient journeys, it analyzes aggregate severity indicators at hospital admission to detect population-level signals of late presentation.</p>
+        </section>
+
+        <section id="methodology">
+            <h2>Methodology</h2>
+            <p>Each hospital admission is assigned a composite severity score calculated as follows:</p>
+            <pre><code>severity_score = (2 × ICU_admission) + (3 × death) + (1 × normalized_LOS)</code></pre>
+            
+            <h3>Diagnostic Delay Index (DDI)</h3>
+            <p>The Diagnostic Delay Index (DDI) is the core metric of this analysis:</p>
+            <pre><code>DDI = (number of high-severity cases) / (total cases)</code></pre>
+            <p>High-severity is categorized as cases falling above the 75th percentile of the severity score distribution. An increasing DDI over time suggests patients may be arriving in progressively worse conditions.</p>
+        </section>
+
+        <section id="visualizations">
+            <h2>Analysis Outputs & Examples</h2>
+            <p>The pipeline automatically generates publication-quality plots to help health surveillance teams identify temporal degradations and geographic disparities.</p>
+
+            <div class="image-container">
+                <h3>Temporal Trends</h3>
+                <img src="assets/ddi_time_series.png" alt="DDI Time Series">
+                <p class="image-caption">Four-panel chart displaying DDI, mortality, ICU rate, and severity over time with a calculated trend line.</p>
+            </div>
+
+            <div class="image-container">
+                <h3>Regional Disparities</h3>
+                <img src="assets/regional_ddi_bar.png" alt="Regional DDI Bar Chart">
+                <p class="image-caption">Top 20 regions ranked by DDI. Regions with higher DDI highlight potential healthcare access disparities.</p>
+            </div>
+
+            <div class="image-container">
+                <h3>Regional-Temporal Heatmap</h3>
+                <img src="assets/regional_temporal_heatmap.png" alt="DDI Heatmap">
+                <p class="image-caption">DDI variation organized across both geographic regions and years.</p>
+            </div>
+            
+            <div class="image-container">
+                <h3>Severity Distribution</h3>
+                <img src="assets/severity_distribution.png" alt="Severity Distribution">
+                <p class="image-caption">Histogram of severity scores indicating the high-severity threshold, alongside box plots of the distribution per year.</p>
+            </div>
+            
+            <div class="image-container">
+                <h3>Age-Adjusted Trends</h3>
+                <img src="assets/age_adjusted_ddi.png" alt="Age Adjusted DDI">
+                <p class="image-caption">DDI trajectories grouped by patient age categories to control for demographic confounding variables.</p>
+            </div>
+        </section>
+
+        <section id="usage">
+            <h2>Quick Usage</h2>
+            <p>Execute the pipeline via the command line on CSV files containing admission indicators:</p>
+            <pre><code># Run on a custom dataset for a specific condition (e.g., Ischemic Stroke)
+python main.py --data path/to/dataset.csv --condition I63 --name "Ischemic Stroke"</code></pre>
+            <p>Alternatively, launch the interactive Streamlit dashboard for real-time adjustments:</p>
+            <pre><code>streamlit run app.py</code></pre>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Diagnostic Delay Detector. Licensed under MIT.</p>
+    </footer>
+
+</body>
+</html>

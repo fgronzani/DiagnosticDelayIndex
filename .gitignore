@@ -1,0 +1,19 @@
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# IDEs
+.idea/
+.vscode/
+
+# Data and outputs
+data/synthetic_sih_data.csv
+outputs/
+docs/assets/
+*.log

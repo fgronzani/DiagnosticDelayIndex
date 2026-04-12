@@ -17,13 +17,20 @@ import numpy as np
 
 logger = logging.getLogger(__name__)
 
-# Brazilian municipalities (realistic sample)
+# Brazilian Microregions (Health Regiões de Saúde or IBGE Microrregiões)
 MUNICIPALITIES = [
-    "São Paulo", "Rio de Janeiro", "Belo Horizonte", "Salvador",
-    "Brasília", "Curitiba", "Fortaleza", "Manaus",
-    "Recife", "Porto Alegre", "Belém", "Goiânia",
-    "Campinas", "Guarulhos", "São Luís", "Maceió",
-    "Natal", "Florianópolis", "Vitória", "João Pessoa",
+    "Micro. São Paulo", "Micro. Guarulhos", "Micro. Osasco", "Micro. Campinas", "Micro. Ribeirão Preto",
+    "Micro. Bauru", "Micro. Sorocaba", "Micro. S. J. Rio Preto", "Micro. Presidente Prudente", "Micro. Araçatuba",
+    "Micro. Santos", "Micro. São José dos Campos", "Micro. Taubaté", "Micro. Piracicaba", "Micro. Franca",
+    "Micro. Araraquara", "Micro. Rio Claro", "Micro. Jundiaí", "Micro. Bragança Paulista", "Micro. Itapeva",
+    "Micro. Marília", "Micro. Assis", "Micro. Ourinhos", "Micro. Jaú", "Micro. Lins",
+    "Micro. Tupã", "Micro. Adamantina", "Micro. Dracena", "Micro. Andradina", "Micro. Fernandópolis",
+    "Micro. Jales", "Micro. Votuporanga", "Micro. Catanduva", "Micro. Barretos", "Micro. São Joaquim da Barra",
+    "Micro. Ituverava", "Micro. Batatais", "Micro. Jaboticabal", "Micro. São Carlos", "Micro. Moji Mirim",
+    "Micro. Amparo", "Micro. São João da Boa Vista", "Micro. Rio de Janeiro", "Micro. Niterói", "Micro. Campos",
+    "Micro. Macaé", "Micro. Cabo Frio", "Micro. Nova Friburgo", "Micro. Petrópolis", "Micro. Teresópolis",
+    "Micro. Volta Redonda", "Micro. Resende", "Micro. Angra dos Reis", "Micro. Itaguaí", "Micro. Duque de Caxias",
+    "Micro. Nova Iguaçu", "Micro. São Gonçalo", "Micro. Magé", "Micro. Itaboraí", "Micro. Araruama"
 ]
 
 # ICD-10 codes for conditions of interest
@@ -38,7 +45,7 @@ ICD_CODES = {
 
 
 def generate_synthetic_data(
-    n_records: int = 15000,
+    n_records: int = 150000,
     years: list[int] | None = None,
     severity_trend: float = 0.02,
     regional_variation: float = 0.15,

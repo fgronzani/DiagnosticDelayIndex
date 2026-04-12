@@ -68,22 +68,22 @@
                     
                     <div class="figure-grid">
                         <figure class="report-figure">
-                            <img src="assets/{{ c.id }}_ddi_time_series.png" alt="Temporal Trends for {{ c.id }}" loading="lazy">
+                            <img src="assets/{{ c.id }}_ddi_time_series.png?v={{ cache_buster }}" alt="Temporal Trends for {{ c.id }}" loading="lazy">
                             <figcaption><strong>Figure 1:</strong> Longitudinal tracking of the Diagnostic Delay Index (DDI) alongside associated severity markers over the observed period. Linear regression evaluates the presence of progressive temporal degradation.</figcaption>
                         </figure>
 
                         <figure class="report-figure">
-                            <img src="assets/{{ c.id }}_regional_temporal_heatmap.png" alt="Geographic Heatmap for {{ c.id }}" loading="lazy">
+                            <img src="assets/{{ c.id }}_regional_temporal_heatmap.png?v={{ cache_buster }}" alt="Geographic Heatmap for {{ c.id }}" loading="lazy">
                             <figcaption><strong>Figure 2:</strong> Spatial-temporal distribution of DDI. Darker regions denote heightened admission severity within specific municipalities over time.</figcaption>
                         </figure>
                         
                         <figure class="report-figure">
-                            <img src="assets/{{ c.id }}_regional_ddi_bar.png" alt="Regional DDI for {{ c.id }}" loading="lazy">
+                            <img src="assets/{{ c.id }}_regional_ddi_bar.png?v={{ cache_buster }}" alt="Regional DDI for {{ c.id }}" loading="lazy">
                             <figcaption><strong>Figure 3:</strong> Stratification of regional health systems ranked by average cumulative DDI, highlighting potential structural care disparities.</figcaption>
                         </figure>
 
                         <figure class="report-figure">
-                            <img src="assets/{{ c.id }}_age_adjusted_ddi.png" alt="Age-Adjusted Trends for {{ c.id }}" loading="lazy">
+                            <img src="assets/{{ c.id }}_age_adjusted_ddi.png?v={{ cache_buster }}" alt="Age-Adjusted Trends for {{ c.id }}" loading="lazy">
                             <figcaption><strong>Figure 4:</strong> Age-adjusted trajectories to identify demographic vulnerabilities independent of population aging.</figcaption>
                         </figure>
                     </div>

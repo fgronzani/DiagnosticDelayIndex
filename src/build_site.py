@@ -116,10 +116,12 @@ def main():
     
     # Setup Jinja2
     env = Environment(loader=FileSystemLoader("docs"))
-    template = env.get_template("template.html")
     
-    # Render final internal HTML
-    html_out = template.render(conditions=condition_data)
+    # Render template
+    import time
+    cache_buster = int(time.time())
+    template = env.get_template('template.html')
+    html_out = template.render(conditions=condition_data, cache_buster=cache_buster)
     
     # Write to index.html
     with open(docs_dir / "index.html", "w", encoding="utf-8") as f:

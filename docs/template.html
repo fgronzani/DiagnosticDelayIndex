@@ -7,122 +7,125 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Academic Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fa-solid fa-heart-pulse"></i>
-                <span>Diagnostic Delay Observatory</span>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-nav">
+                <span class="institution-text">Clinical Data Science Framework</span>
+                <a href="https://github.com/fgronzani/DiagnosticDelayIndex" target="_blank" class="repo-link">View Source Code</a>
             </div>
-            <a href="https://github.com/fgronzani/DiagnosticDelayIndex" class="github-link" target="_blank">
-                <i class="fa-brands fa-github"></i> Source Code
-            </a>
         </div>
-    </nav>
+    </header>
 
-    <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="container hero-content">
-            <div class="badge">Live Analytics Dashboard</div>
-            <h1>Automated Clinical Intelligence</h1>
-            <p>Tracking the Diagnostic Delay Index (DDI) indicative metrics across multiple conditions. This report is automatically generated using aggregated patient severity markers.</p>
+    <div class="hero-section">
+        <div class="container">
+            <div class="title-block">
+                <p class="category-label">Observatory Report</p>
+                <h1>Diagnostic Delay Index (DDI): Temporal and Regional Analysis Across Clinical Conditions</h1>
+                <p class="abstract">
+                    <strong>Abstract:</strong> This automated observatory tracks population-level signals of diagnostic delay using aggregate hospital admission severity. By monitoring a composite severity score (weighted by ICU admission, mortality, and length of stay) mapped to the 75th percentile (DDI), we compute statistically robust temporal degradation trajectories and regional disparities across multiple pathologies.
+                </p>
+            </div>
         </div>
-    </section>
+    </div>
 
     <!-- Tab Navigation -->
-    <section class="tabs-section">
+    <div class="tabs-wrapper">
         <div class="container">
-            <div class="tab-container">
+            <nav class="tab-list" aria-label="Clinical Conditions">
                 {% for c in conditions %}
-                <button class="tab-link {% if loop.index == 1 %}active{% endif %}" onclick="openTab(event, '{{ c.id }}')">
+                <button class="tab-btn {% if loop.index == 1 %}active{% endif %}" onclick="openTab(event, '{{ c.id }}')">
                     {{ c.name }}
                 </button>
                 {% endfor %}
-            </div>
+            </nav>
         </div>
-    </section>
-
-    <!-- Tab Contents -->
-    <div class="container">
-        {% for c in conditions %}
-        <div id="{{ c.id }}" class="tab-content {% if loop.index == 1 %}active{% endif %}">
-            
-            <div class="grid-2 mt-4">
-                <div class="clinical-report glassmorphism fade-up">
-                    <h3><i class="fa-solid fa-file-medical"></i> Automated Clinical Report</h3>
-                    <div class="report-text">
-                        {{ c.report_html }}
-                    </div>
-                </div>
-                
-                <div class="fade-up">
-                    <div class="showcase-image mb-4">
-                        <img src="assets/{{ c.id }}_ddi_time_series.png" alt="Temporal Trends" loading="lazy">
-                    </div>
-                    <div class="showcase-image">
-                        <img src="assets/{{ c.id }}_regional_ddi_bar.png" alt="Regional DDI" loading="lazy">
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid-2 mt-4 fade-up">
-                <div class="showcase-image">
-                    <img src="assets/{{ c.id }}_regional_temporal_heatmap.png" alt="Geographic Heatmap" loading="lazy">
-                </div>
-                <div class="showcase-image">
-                    <img src="assets/{{ c.id }}_age_adjusted_ddi.png" alt="Age-Adjusted Trends" loading="lazy">
-                </div>
-            </div>
-
-            <div class="data-tables mt-4 fade-up">
-                <div class="table-container glassmorphism mb-4">
-                    <h3><i class="fa-solid fa-table"></i> Temporal Metrics</h3>
-                    {{ c.temporal_table_html }}
-                </div>
-            </div>
-        </div>
-        {% endfor %}
     </div>
 
-    <footer>
-        <div class="container text-center">
-            <p>Generated dynamically by the Diagnostic Delay Pipeline.</p>
-            <p class="copyright">&copy; 2026. Released under the MIT License.</p>
+    <!-- Tab Contents -->
+    <main class="container report-content">
+        {% for c in conditions %}
+        <div id="{{ c.id }}" class="tab-pane {% if loop.index == 1 %}active{% endif %}">
+            
+            <article class="academic-paper">
+                
+                <section class="interpretation-section">
+                    <h2>1. Clinical Interpretation and Statistical Summary</h2>
+                    <div class="report-prose">
+                        {{ c.report_html }}
+                    </div>
+                </section>
+                
+                <hr class="section-divider">
+
+                <section class="figures-section">
+                    <h2>2. Epidemiological Visualizations</h2>
+                    
+                    <div class="figure-grid">
+                        <figure class="report-figure">
+                            <img src="assets/{{ c.id }}_ddi_time_series.png" alt="Temporal Trends for {{ c.id }}" loading="lazy">
+                            <figcaption><strong>Figure 1:</strong> Longitudinal tracking of the Diagnostic Delay Index (DDI) alongside associated severity markers over the observed period. Linear regression evaluates the presence of progressive temporal degradation.</figcaption>
+                        </figure>
+
+                        <figure class="report-figure">
+                            <img src="assets/{{ c.id }}_regional_temporal_heatmap.png" alt="Geographic Heatmap for {{ c.id }}" loading="lazy">
+                            <figcaption><strong>Figure 2:</strong> Spatial-temporal distribution of DDI. Darker regions denote heightened admission severity within specific municipalities over time.</figcaption>
+                        </figure>
+                        
+                        <figure class="report-figure">
+                            <img src="assets/{{ c.id }}_regional_ddi_bar.png" alt="Regional DDI for {{ c.id }}" loading="lazy">
+                            <figcaption><strong>Figure 3:</strong> Stratification of regional health systems ranked by average cumulative DDI, highlighting potential structural care disparities.</figcaption>
+                        </figure>
+
+                        <figure class="report-figure">
+                            <img src="assets/{{ c.id }}_age_adjusted_ddi.png" alt="Age-Adjusted Trends for {{ c.id }}" loading="lazy">
+                            <figcaption><strong>Figure 4:</strong> Age-adjusted trajectories to identify demographic vulnerabilities independent of population aging.</figcaption>
+                        </figure>
+                    </div>
+                </section>
+                
+                <hr class="section-divider">
+
+                <section class="data-section">
+                    <h2>3. Temporal Dataset (DDI Aggregates)</h2>
+                    <p class="table-caption"><strong>Table 1:</strong> Annual aggregate values for total cases, ICU utilization, mortality rates, and computed indices.</p>
+                    <div class="table-scroll">
+                        {{ c.temporal_table_html }}
+                    </div>
+                </section>
+                
+            </article>
+
+        </div>
+        {% endfor %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Generated by the Diagnostic Delay Data Pipeline.</p>
+            <p class="copyright">This methodology provides proxy indicators for public health surveillance and does not replace individual clinical pathway audits.</p>
         </div>
     </footer>
 
     <script>
         function openTab(evt, tabId) {
             var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
+            tabcontent = document.getElementsByClassName("tab-pane");
             for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].classList.remove("active");
             }
-            tablinks = document.getElementsByClassName("tab-link");
+            tablinks = document.getElementsByClassName("tab-btn");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].classList.remove("active");
             }
             document.getElementById(tabId).classList.add("active");
             evt.currentTarget.classList.add("active");
         }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-            document.querySelectorAll('.fade-up').forEach((el) => { observer.observe(el); });
-        });
     </script>
 </body>
 </html>

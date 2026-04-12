@@ -7,90 +7,103 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Academic Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fa-solid fa-heart-pulse"></i>
-                <span>Diagnostic Delay Observatory</span>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-nav">
+                <span class="institution-text">Clinical Data Science Framework</span>
+                <a href="https://github.com/fgronzani/DiagnosticDelayIndex" target="_blank" class="repo-link">View Source Code</a>
             </div>
-            <a href="https://github.com/fgronzani/DiagnosticDelayIndex" class="github-link" target="_blank">
-                <i class="fa-brands fa-github"></i> Source Code
-            </a>
         </div>
-    </nav>
+    </header>
 
-    <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="container hero-content">
-            <div class="badge">Live Analytics Dashboard</div>
-            <h1>Automated Clinical Intelligence</h1>
-            <p>Tracking the Diagnostic Delay Index (DDI) indicative metrics across multiple conditions. This report is automatically generated using aggregated patient severity markers.</p>
+    <div class="hero-section">
+        <div class="container">
+            <div class="title-block">
+                <p class="category-label">Observatory Report</p>
+                <h1>Diagnostic Delay Index (DDI): Temporal and Regional Analysis Across Clinical Conditions</h1>
+                <p class="abstract">
+                    <strong>Abstract:</strong> This automated observatory tracks population-level signals of diagnostic delay using aggregate hospital admission severity. By monitoring a composite severity score (weighted by ICU admission, mortality, and length of stay) mapped to the 75th percentile (DDI), we compute statistically robust temporal degradation trajectories and regional disparities across multiple pathologies.
+                </p>
+            </div>
         </div>
-    </section>
+    </div>
 
     <!-- Tab Navigation -->
-    <section class="tabs-section">
+    <div class="tabs-wrapper">
         <div class="container">
-            <div class="tab-container">
+            <nav class="tab-list" aria-label="Clinical Conditions">
                 
-                <button class="tab-link active" onclick="openTab(event, 'I21')">
+                <button class="tab-btn active" onclick="openTab(event, 'I21')">
                     Acute Myocardial Infarction (AMI)
                 </button>
                 
-                <button class="tab-link " onclick="openTab(event, 'I63')">
+                <button class="tab-btn " onclick="openTab(event, 'I63')">
                     Ischemic Stroke
                 </button>
                 
-                <button class="tab-link " onclick="openTab(event, 'C34')">
+                <button class="tab-btn " onclick="openTab(event, 'C34')">
                     Lung Cancer
                 </button>
                 
-            </div>
+            </nav>
         </div>
-    </section>
+    </div>
 
     <!-- Tab Contents -->
-    <div class="container">
+    <main class="container report-content">
         
-        <div id="I21" class="tab-content active">
+        <div id="I21" class="tab-pane active">
             
-            <div class="grid-2 mt-4">
-                <div class="clinical-report glassmorphism fade-up">
-                    <h3><i class="fa-solid fa-file-medical"></i> Automated Clinical Report</h3>
-                    <div class="report-text">
+            <article class="academic-paper">
+                
+                <section class="interpretation-section">
+                    <h2>1. Clinical Interpretation and Statistical Summary</h2>
+                    <div class="report-prose">
                         ╔════════════════════════════════════════════════════════════════════╗<br>║  DIAGNOSTIC DELAY DETECTOR — CLINICAL INTERPRETATION REPORT       ║<br>╚════════════════════════════════════════════════════════════════════╝<br><br>Condition: Acute Myocardial Infarction (AMI)<br>ICD-10 prefixes: I21<br>═══ CLINICAL INTERPRETATION — Acute Myocardial Infarction (AMI) ═══<br><br><span style='color:red'>⚠️</span>  SIGNAL DETECTED: The Diagnostic Delay Index (DDI) shows a statistically significant INCREASING trend (p=0.0000) from 2015 to 2023.<br><br>This means a growing proportion of Acute Myocardial Infarction (AMI) patients are presenting at admission with indicators of advanced disease — including higher rates of ICU admission, mortality, and prolonged hospitalization.<br><br>📋 Possible explanations include:<br>   1. Delayed access to primary care or diagnostic services<br>   2. Barriers to seeking care (geographic, financial, cultural)<br>   3. Reduced availability or effectiveness of screening programs<br>   4. Changes in referral patterns or hospital admission criteria<br>   5. Demographic shifts (aging population) increasing baseline severity<br><br>📊 Total change: +75.8% over the analysis period.<br><br><span style='color:red'>⚠️</span>  IMPORTANT LIMITATIONS:<br>   • The DDI is a PROXY measure. It does not directly prove diagnostic delay.<br>   • Changes in coding practices, hospital capacity, or patient demographics<br>     may affect these indicators independently of actual diagnostic timing.<br>   • This analysis uses aggregate data without patient-level linkage.<br>   • Ecological fallacy: population-level trends may not apply to individuals.<br><br>═══ COMPONENT ANALYSIS — Acute Myocardial Infarction (AMI) ═══<br><br><span style='color:green'>📈</span> Mortality Rate: increasing (p=0.0124, significant)<br>   mortality among hospitalized patients<br><span style='color:green'>📈</span> ICU Admission Rate: increasing (p=0.0000, significant)<br>   ICU utilization among admissions<br><span style='color:green'>📈</span> Average Severity Score: increasing (p=0.0000, significant)<br>   composite severity measure<br><br>🚨 CONVERGENT SIGNAL: Both mortality AND ICU rates are increasing significantly. This pattern is strongly consistent with later presentation of Acute Myocardial Infarction (AMI), though confounding factors must be investigated.<br><br>═══ REGIONAL ANALYSIS — Acute Myocardial Infarction (AMI) ═══<br><br>Analyzed 20 regions with sufficient case volume (≥30 cases).<br><br>Mean DDI across regions: 25.2% (range: 38.5%)<br><br><span style='color:red'>⚠️</span>  SUBSTANTIAL REGIONAL VARIATION detected. The 38.5% spread in DDI across regions suggests significant geographic disparities in disease severity at presentation.<br><br>Regions with higher DDI may face:<br>   • Limited access to diagnostic facilities<br>   • Shortage of primary care providers<br>   • Geographic barriers to healthcare<br>   • Socioeconomic factors affecting care-seeking behavior<br><br>🔴 Highest DDI regions (potential priority areas):<br>   • Campinas: DDI = 50.2%<br>   • Brasília: DDI = 40.1%<br>   • Florianópolis: DDI = 35.7%<br>   • São Paulo: DDI = 35.6%<br>   • Natal: DDI = 34.3%<br><br>🟢 Lowest DDI regions:<br>   • Maceió: DDI = 11.7%<br>   • Salvador: DDI = 13.9%<br>   • João Pessoa: DDI = 15.4%<br>   • São Luís: DDI = 15.6%<br>   • Guarulhos: DDI = 16.8%<br><br>═══ AGE-ADJUSTED ANALYSIS ═══<br><br>  <span style='color:green'>📈</span> 18-39: increasing (p=0.0204) ✓<br>  <span style='color:green'>📈</span> 40-59: increasing (p=0.0013) ✓<br>  <span style='color:green'>📈</span> 60-79: increasing (p=0.0000) ✓<br>  <span style='color:green'>📈</span> 80+: increasing (p=0.0428) ✓<br><br>  <span style='color:red'>⚠️</span>  Age groups with significant increasing DDI: 18-39, 40-59, 60-79, 80+<br>  This may indicate targeted screening or access barriers for these demographics.<br><br>──────────────────────────────────────────────────────────────────────<br>📌 DISCLAIMER: This analysis detects INDIRECT SIGNALS using proxy indicators. Results suggest patterns worthy of investigation but do NOT constitute proof of diagnostic delay. Clinical audit, patient pathway analysis, and expert review are required before policy action.<br>──────────────────────────────────────────────────────────────────────
                     </div>
-                </div>
+                </section>
                 
-                <div class="fade-up">
-                    <div class="showcase-image mb-4">
-                        <img src="assets/I21_ddi_time_series.png" alt="Temporal Trends" loading="lazy">
-                    </div>
-                    <div class="showcase-image">
-                        <img src="assets/I21_regional_ddi_bar.png" alt="Regional DDI" loading="lazy">
-                    </div>
-                </div>
-            </div>
+                <hr class="section-divider">
 
-            <div class="grid-2 mt-4 fade-up">
-                <div class="showcase-image">
-                    <img src="assets/I21_regional_temporal_heatmap.png" alt="Geographic Heatmap" loading="lazy">
-                </div>
-                <div class="showcase-image">
-                    <img src="assets/I21_age_adjusted_ddi.png" alt="Age-Adjusted Trends" loading="lazy">
-                </div>
-            </div>
+                <section class="figures-section">
+                    <h2>2. Epidemiological Visualizations</h2>
+                    
+                    <div class="figure-grid">
+                        <figure class="report-figure">
+                            <img src="assets/I21_ddi_time_series.png" alt="Temporal Trends for I21" loading="lazy">
+                            <figcaption><strong>Figure 1:</strong> Longitudinal tracking of the Diagnostic Delay Index (DDI) alongside associated severity markers over the observed period. Linear regression evaluates the presence of progressive temporal degradation.</figcaption>
+                        </figure>
 
-            <div class="data-tables mt-4 fade-up">
-                <div class="table-container glassmorphism mb-4">
-                    <h3><i class="fa-solid fa-table"></i> Temporal Metrics</h3>
-                    <table border="1" class="dataframe dataframe">
+                        <figure class="report-figure">
+                            <img src="assets/I21_regional_temporal_heatmap.png" alt="Geographic Heatmap for I21" loading="lazy">
+                            <figcaption><strong>Figure 2:</strong> Spatial-temporal distribution of DDI. Darker regions denote heightened admission severity within specific municipalities over time.</figcaption>
+                        </figure>
+                        
+                        <figure class="report-figure">
+                            <img src="assets/I21_regional_ddi_bar.png" alt="Regional DDI for I21" loading="lazy">
+                            <figcaption><strong>Figure 3:</strong> Stratification of regional health systems ranked by average cumulative DDI, highlighting potential structural care disparities.</figcaption>
+                        </figure>
+
+                        <figure class="report-figure">
+                            <img src="assets/I21_age_adjusted_ddi.png" alt="Age-Adjusted Trends for I21" loading="lazy">
+                            <figcaption><strong>Figure 4:</strong> Age-adjusted trajectories to identify demographic vulnerabilities independent of population aging.</figcaption>
+                        </figure>
+                    </div>
+                </section>
+                
+                <hr class="section-divider">
+
+                <section class="data-section">
+                    <h2>3. Temporal Dataset (DDI Aggregates)</h2>
+                    <p class="table-caption"><strong>Table 1:</strong> Annual aggregate values for total cases, ICU utilization, mortality rates, and computed indices.</p>
+                    <div class="table-scroll">
+                        <table border="1" class="dataframe dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>ddi</th>
@@ -206,43 +219,59 @@
     </tr>
   </tbody>
 </table>
-                </div>
-            </div>
+                    </div>
+                </section>
+                
+            </article>
+
         </div>
         
-        <div id="I63" class="tab-content ">
+        <div id="I63" class="tab-pane ">
             
-            <div class="grid-2 mt-4">
-                <div class="clinical-report glassmorphism fade-up">
-                    <h3><i class="fa-solid fa-file-medical"></i> Automated Clinical Report</h3>
-                    <div class="report-text">
+            <article class="academic-paper">
+                
+                <section class="interpretation-section">
+                    <h2>1. Clinical Interpretation and Statistical Summary</h2>
+                    <div class="report-prose">
                         ╔════════════════════════════════════════════════════════════════════╗<br>║  DIAGNOSTIC DELAY DETECTOR — CLINICAL INTERPRETATION REPORT       ║<br>╚════════════════════════════════════════════════════════════════════╝<br><br>Condition: Ischemic Stroke<br>ICD-10 prefixes: I63<br>═══ CLINICAL INTERPRETATION — Ischemic Stroke ═══<br><br>ℹ️  NO SIGNIFICANT TREND: The DDI does not show a statistically significant temporal trend (p=0.0974) over the period 2015–2023.<br><br>Severity patterns for Ischemic Stroke appear relatively stable, though this does not rule out localized or subgroup-level changes.<br><br>📊 Total change: +93.2% over the analysis period.<br><br><span style='color:red'>⚠️</span>  IMPORTANT LIMITATIONS:<br>   • The DDI is a PROXY measure. It does not directly prove diagnostic delay.<br>   • Changes in coding practices, hospital capacity, or patient demographics<br>     may affect these indicators independently of actual diagnostic timing.<br>   • This analysis uses aggregate data without patient-level linkage.<br>   • Ecological fallacy: population-level trends may not apply to individuals.<br><br>═══ COMPONENT ANALYSIS — Ischemic Stroke ═══<br><br><span style='color:green'>📈</span> Mortality Rate: increasing (p=0.1769, not significant)<br>   mortality among hospitalized patients<br><span style='color:green'>📈</span> ICU Admission Rate: increasing (p=0.1119, not significant)<br>   ICU utilization among admissions<br><span style='color:green'>📈</span> Average Severity Score: increasing (p=0.1189, not significant)<br>   composite severity measure<br><br>═══ REGIONAL ANALYSIS — Ischemic Stroke ═══<br><br>Analyzed 20 regions with sufficient case volume (≥30 cases).<br><br>Mean DDI across regions: 25.7% (range: 48.4%)<br><br><span style='color:red'>⚠️</span>  SUBSTANTIAL REGIONAL VARIATION detected. The 48.4% spread in DDI across regions suggests significant geographic disparities in disease severity at presentation.<br><br>Regions with higher DDI may face:<br>   • Limited access to diagnostic facilities<br>   • Shortage of primary care providers<br>   • Geographic barriers to healthcare<br>   • Socioeconomic factors affecting care-seeking behavior<br><br>🔴 Highest DDI regions (potential priority areas):<br>   • Campinas: DDI = 54.3%<br>   • Brasília: DDI = 51.4%<br>   • Florianópolis: DDI = 46.9%<br>   • São Paulo: DDI = 41.5%<br>   • Belém: DDI = 33.3%<br><br>🟢 Lowest DDI regions:<br>   • Guarulhos: DDI = 5.9%<br>   • São Luís: DDI = 8.3%<br>   • Salvador: DDI = 9.4%<br>   • João Pessoa: DDI = 10.3%<br>   • Curitiba: DDI = 10.8%<br><br>═══ AGE-ADJUSTED ANALYSIS ═══<br><br>  <span style='color:green'>📈</span> 40-59: increasing (p=0.5055) <br>  ➡️ 60-79: insufficient_data (p=nan) <br><br>──────────────────────────────────────────────────────────────────────<br>📌 DISCLAIMER: This analysis detects INDIRECT SIGNALS using proxy indicators. Results suggest patterns worthy of investigation but do NOT constitute proof of diagnostic delay. Clinical audit, patient pathway analysis, and expert review are required before policy action.<br>──────────────────────────────────────────────────────────────────────
                     </div>
-                </div>
+                </section>
                 
-                <div class="fade-up">
-                    <div class="showcase-image mb-4">
-                        <img src="assets/I63_ddi_time_series.png" alt="Temporal Trends" loading="lazy">
-                    </div>
-                    <div class="showcase-image">
-                        <img src="assets/I63_regional_ddi_bar.png" alt="Regional DDI" loading="lazy">
-                    </div>
-                </div>
-            </div>
+                <hr class="section-divider">
 
-            <div class="grid-2 mt-4 fade-up">
-                <div class="showcase-image">
-                    <img src="assets/I63_regional_temporal_heatmap.png" alt="Geographic Heatmap" loading="lazy">
-                </div>
-                <div class="showcase-image">
-                    <img src="assets/I63_age_adjusted_ddi.png" alt="Age-Adjusted Trends" loading="lazy">
-                </div>
-            </div>
+                <section class="figures-section">
+                    <h2>2. Epidemiological Visualizations</h2>
+                    
+                    <div class="figure-grid">
+                        <figure class="report-figure">
+                            <img src="assets/I63_ddi_time_series.png" alt="Temporal Trends for I63" loading="lazy">
+                            <figcaption><strong>Figure 1:</strong> Longitudinal tracking of the Diagnostic Delay Index (DDI) alongside associated severity markers over the observed period. Linear regression evaluates the presence of progressive temporal degradation.</figcaption>
+                        </figure>
 
-            <div class="data-tables mt-4 fade-up">
-                <div class="table-container glassmorphism mb-4">
-                    <h3><i class="fa-solid fa-table"></i> Temporal Metrics</h3>
-                    <table border="1" class="dataframe dataframe">
+                        <figure class="report-figure">
+                            <img src="assets/I63_regional_temporal_heatmap.png" alt="Geographic Heatmap for I63" loading="lazy">
+                            <figcaption><strong>Figure 2:</strong> Spatial-temporal distribution of DDI. Darker regions denote heightened admission severity within specific municipalities over time.</figcaption>
+                        </figure>
+                        
+                        <figure class="report-figure">
+                            <img src="assets/I63_regional_ddi_bar.png" alt="Regional DDI for I63" loading="lazy">
+                            <figcaption><strong>Figure 3:</strong> Stratification of regional health systems ranked by average cumulative DDI, highlighting potential structural care disparities.</figcaption>
+                        </figure>
+
+                        <figure class="report-figure">
+                            <img src="assets/I63_age_adjusted_ddi.png" alt="Age-Adjusted Trends for I63" loading="lazy">
+                            <figcaption><strong>Figure 4:</strong> Age-adjusted trajectories to identify demographic vulnerabilities independent of population aging.</figcaption>
+                        </figure>
+                    </div>
+                </section>
+                
+                <hr class="section-divider">
+
+                <section class="data-section">
+                    <h2>3. Temporal Dataset (DDI Aggregates)</h2>
+                    <p class="table-caption"><strong>Table 1:</strong> Annual aggregate values for total cases, ICU utilization, mortality rates, and computed indices.</p>
+                    <div class="table-scroll">
+                        <table border="1" class="dataframe dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>ddi</th>
@@ -358,43 +387,59 @@
     </tr>
   </tbody>
 </table>
-                </div>
-            </div>
+                    </div>
+                </section>
+                
+            </article>
+
         </div>
         
-        <div id="C34" class="tab-content ">
+        <div id="C34" class="tab-pane ">
             
-            <div class="grid-2 mt-4">
-                <div class="clinical-report glassmorphism fade-up">
-                    <h3><i class="fa-solid fa-file-medical"></i> Automated Clinical Report</h3>
-                    <div class="report-text">
+            <article class="academic-paper">
+                
+                <section class="interpretation-section">
+                    <h2>1. Clinical Interpretation and Statistical Summary</h2>
+                    <div class="report-prose">
                         ╔════════════════════════════════════════════════════════════════════╗<br>║  DIAGNOSTIC DELAY DETECTOR — CLINICAL INTERPRETATION REPORT       ║<br>╚════════════════════════════════════════════════════════════════════╝<br><br>Condition: Lung Cancer<br>ICD-10 prefixes: C34<br>═══ CLINICAL INTERPRETATION — Lung Cancer ═══<br><br><span style='color:red'>⚠️</span>  SIGNAL DETECTED: The Diagnostic Delay Index (DDI) shows a statistically significant INCREASING trend (p=0.0107) from 2015 to 2023.<br><br>This means a growing proportion of Lung Cancer patients are presenting at admission with indicators of advanced disease — including higher rates of ICU admission, mortality, and prolonged hospitalization.<br><br>📋 Possible explanations include:<br>   1. Delayed access to primary care or diagnostic services<br>   2. Barriers to seeking care (geographic, financial, cultural)<br>   3. Reduced availability or effectiveness of screening programs<br>   4. Changes in referral patterns or hospital admission criteria<br>   5. Demographic shifts (aging population) increasing baseline severity<br><br>📊 Total change: +147.2% over the analysis period.<br><br><span style='color:red'>⚠️</span>  IMPORTANT LIMITATIONS:<br>   • The DDI is a PROXY measure. It does not directly prove diagnostic delay.<br>   • Changes in coding practices, hospital capacity, or patient demographics<br>     may affect these indicators independently of actual diagnostic timing.<br>   • This analysis uses aggregate data without patient-level linkage.<br>   • Ecological fallacy: population-level trends may not apply to individuals.<br><br>═══ COMPONENT ANALYSIS — Lung Cancer ═══<br><br><span style='color:green'>📈</span> Mortality Rate: increasing (p=0.0654, not significant)<br>   mortality among hospitalized patients<br><span style='color:green'>📈</span> ICU Admission Rate: increasing (p=0.0094, significant)<br>   ICU utilization among admissions<br><span style='color:green'>📈</span> Average Severity Score: increasing (p=0.0090, significant)<br>   composite severity measure<br><br>═══ REGIONAL ANALYSIS — Lung Cancer ═══<br><br>Analyzed 19 regions with sufficient case volume (≥30 cases).<br><br>Mean DDI across regions: 24.2% (range: 44.7%)<br><br><span style='color:red'>⚠️</span>  SUBSTANTIAL REGIONAL VARIATION detected. The 44.7% spread in DDI across regions suggests significant geographic disparities in disease severity at presentation.<br><br>Regions with higher DDI may face:<br>   • Limited access to diagnostic facilities<br>   • Shortage of primary care providers<br>   • Geographic barriers to healthcare<br>   • Socioeconomic factors affecting care-seeking behavior<br><br>🔴 Highest DDI regions (potential priority areas):<br>   • Campinas: DDI = 53.1%<br>   • São Paulo: DDI = 40.5%<br>   • Natal: DDI = 39.5%<br>   • Belo Horizonte: DDI = 33.3%<br>   • Recife: DDI = 31.9%<br><br>🟢 Lowest DDI regions:<br>   • João Pessoa: DDI = 8.3%<br>   • Guarulhos: DDI = 9.5%<br>   • Manaus: DDI = 12.9%<br>   • São Luís: DDI = 13.9%<br>   • Salvador: DDI = 15.9%<br><br>═══ AGE-ADJUSTED ANALYSIS ═══<br><br>  <span style='color:green'>📈</span> 40-59: increasing (p=0.1260) <br>  <span style='color:green'>📈</span> 60-79: increasing (p=0.3391) <br><br>──────────────────────────────────────────────────────────────────────<br>📌 DISCLAIMER: This analysis detects INDIRECT SIGNALS using proxy indicators. Results suggest patterns worthy of investigation but do NOT constitute proof of diagnostic delay. Clinical audit, patient pathway analysis, and expert review are required before policy action.<br>──────────────────────────────────────────────────────────────────────
                     </div>
-                </div>
+                </section>
                 
-                <div class="fade-up">
-                    <div class="showcase-image mb-4">
-                        <img src="assets/C34_ddi_time_series.png" alt="Temporal Trends" loading="lazy">
-                    </div>
-                    <div class="showcase-image">
-                        <img src="assets/C34_regional_ddi_bar.png" alt="Regional DDI" loading="lazy">
-                    </div>
-                </div>
-            </div>
+                <hr class="section-divider">
 
-            <div class="grid-2 mt-4 fade-up">
-                <div class="showcase-image">
-                    <img src="assets/C34_regional_temporal_heatmap.png" alt="Geographic Heatmap" loading="lazy">
-                </div>
-                <div class="showcase-image">
-                    <img src="assets/C34_age_adjusted_ddi.png" alt="Age-Adjusted Trends" loading="lazy">
-                </div>
-            </div>
+                <section class="figures-section">
+                    <h2>2. Epidemiological Visualizations</h2>
+                    
+                    <div class="figure-grid">
+                        <figure class="report-figure">
+                            <img src="assets/C34_ddi_time_series.png" alt="Temporal Trends for C34" loading="lazy">
+                            <figcaption><strong>Figure 1:</strong> Longitudinal tracking of the Diagnostic Delay Index (DDI) alongside associated severity markers over the observed period. Linear regression evaluates the presence of progressive temporal degradation.</figcaption>
+                        </figure>
 
-            <div class="data-tables mt-4 fade-up">
-                <div class="table-container glassmorphism mb-4">
-                    <h3><i class="fa-solid fa-table"></i> Temporal Metrics</h3>
-                    <table border="1" class="dataframe dataframe">
+                        <figure class="report-figure">
+                            <img src="assets/C34_regional_temporal_heatmap.png" alt="Geographic Heatmap for C34" loading="lazy">
+                            <figcaption><strong>Figure 2:</strong> Spatial-temporal distribution of DDI. Darker regions denote heightened admission severity within specific municipalities over time.</figcaption>
+                        </figure>
+                        
+                        <figure class="report-figure">
+                            <img src="assets/C34_regional_ddi_bar.png" alt="Regional DDI for C34" loading="lazy">
+                            <figcaption><strong>Figure 3:</strong> Stratification of regional health systems ranked by average cumulative DDI, highlighting potential structural care disparities.</figcaption>
+                        </figure>
+
+                        <figure class="report-figure">
+                            <img src="assets/C34_age_adjusted_ddi.png" alt="Age-Adjusted Trends for C34" loading="lazy">
+                            <figcaption><strong>Figure 4:</strong> Age-adjusted trajectories to identify demographic vulnerabilities independent of population aging.</figcaption>
+                        </figure>
+                    </div>
+                </section>
+                
+                <hr class="section-divider">
+
+                <section class="data-section">
+                    <h2>3. Temporal Dataset (DDI Aggregates)</h2>
+                    <p class="table-caption"><strong>Table 1:</strong> Annual aggregate values for total cases, ICU utilization, mortality rates, and computed indices.</p>
+                    <div class="table-scroll">
+                        <table border="1" class="dataframe dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>ddi</th>
@@ -510,46 +555,36 @@
     </tr>
   </tbody>
 </table>
-                </div>
-            </div>
+                    </div>
+                </section>
+                
+            </article>
+
         </div>
         
-    </div>
+    </main>
 
-    <footer>
-        <div class="container text-center">
-            <p>Generated dynamically by the Diagnostic Delay Pipeline.</p>
-            <p class="copyright">&copy; 2026. Released under the MIT License.</p>
+    <footer class="site-footer">
+        <div class="container">
+            <p>Generated by the Diagnostic Delay Data Pipeline.</p>
+            <p class="copyright">This methodology provides proxy indicators for public health surveillance and does not replace individual clinical pathway audits.</p>
         </div>
     </footer>
 
     <script>
         function openTab(evt, tabId) {
             var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
+            tabcontent = document.getElementsByClassName("tab-pane");
             for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].classList.remove("active");
             }
-            tablinks = document.getElementsByClassName("tab-link");
+            tablinks = document.getElementsByClassName("tab-btn");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].classList.remove("active");
             }
             document.getElementById(tabId).classList.add("active");
             evt.currentTarget.classList.add("active");
         }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-            document.querySelectorAll('.fade-up').forEach((el) => { observer.observe(el); });
-        });
     </script>
 </body>
 </html>

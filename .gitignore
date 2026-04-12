@@ -15,5 +15,4 @@ __pycache__/
 # Data and outputs
 data/synthetic_sih_data.csv
 outputs/
-docs/assets/
 *.log

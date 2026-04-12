@@ -501,6 +501,119 @@ footer p {
 }
 
 /* Responsive */
+/* Tabs Navigation */
+.tabs-section {
+    background: white;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    top: 70px;
+    z-index: 900;
+}
+
+.tab-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.tab-container::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-link {
+    background: transparent;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.tab-link:hover {
+    color: var(--primary-color);
+    background: var(--bg-main);
+}
+
+.tab-link.active {
+    color: var(--accent-color);
+    background: #F0F9FF;
+    box-shadow: inset 0 -2px 0 var(--accent-color);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Clinical Report Block */
+.clinical-report {
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-left: 4px solid var(--accent-color);
+}
+
+.clinical-report h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.report-text {
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+/* Data Tables */
+.table-container {
+    padding: 2rem;
+    overflow-x: auto;
+}
+
+.dataframe {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    text-align: left;
+}
+
+.dataframe th {
+    background: #F1F5F9;
+    color: var(--primary-color);
+    font-weight: 600;
+    padding: 1rem;
+    border-bottom: 2px solid #E2E8F0;
+}
+
+.dataframe td {
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.dataframe tr:nth-child(even) td {
+    background: #F8FAFC;
+}
+
+.dataframe tr:hover td {
+    background: #F0F9FF;
+}
+
+/* Responsive */
 @media (max-width: 900px) {
     .grid-2, .showcase-card, .showcase-card.reverse {
         grid-template-columns: 1fr;

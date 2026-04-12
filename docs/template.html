@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostic Delay Observatory</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fa-solid fa-heart-pulse"></i>
+                <span>Diagnostic Delay Observatory</span>
+            </div>
+            <a href="https://github.com/fgronzani/DiagnosticDelayIndex" class="github-link" target="_blank">
+                <i class="fa-brands fa-github"></i> Source Code
+            </a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="container hero-content">
+            <div class="badge">Live Analytics Dashboard</div>
+            <h1>Automated Clinical Intelligence</h1>
+            <p>Tracking the Diagnostic Delay Index (DDI) indicative metrics across multiple conditions. This report is automatically generated using aggregated patient severity markers.</p>
+        </div>
+    </section>
+
+    <!-- Tab Navigation -->
+    <section class="tabs-section">
+        <div class="container">
+            <div class="tab-container">
+                {% for c in conditions %}
+                <button class="tab-link {% if loop.index == 1 %}active{% endif %}" onclick="openTab(event, '{{ c.id }}')">
+                    {{ c.name }}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Tab Contents -->
+    <div class="container">
+        {% for c in conditions %}
+        <div id="{{ c.id }}" class="tab-content {% if loop.index == 1 %}active{% endif %}">
+            
+            <div class="grid-2 mt-4">
+                <div class="clinical-report glassmorphism fade-up">
+                    <h3><i class="fa-solid fa-file-medical"></i> Automated Clinical Report</h3>
+                    <div class="report-text">
+                        {{ c.report_html }}
+                    </div>
+                </div>
+                
+                <div class="fade-up">
+                    <div class="showcase-image mb-4">
+                        <img src="assets/{{ c.id }}_ddi_time_series.png" alt="Temporal Trends" loading="lazy">
+                    </div>
+                    <div class="showcase-image">
+                        <img src="assets/{{ c.id }}_regional_ddi_bar.png" alt="Regional DDI" loading="lazy">
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2 mt-4 fade-up">
+                <div class="showcase-image">
+                    <img src="assets/{{ c.id }}_regional_temporal_heatmap.png" alt="Geographic Heatmap" loading="lazy">
+                </div>
+                <div class="showcase-image">
+                    <img src="assets/{{ c.id }}_age_adjusted_ddi.png" alt="Age-Adjusted Trends" loading="lazy">
+                </div>
+            </div>
+
+            <div class="data-tables mt-4 fade-up">
+                <div class="table-container glassmorphism mb-4">
+                    <h3><i class="fa-solid fa-table"></i> Temporal Metrics</h3>
+                    {{ c.temporal_table_html }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <footer>
+        <div class="container text-center">
+            <p>Generated dynamically by the Diagnostic Delay Pipeline.</p>
+            <p class="copyright">&copy; 2026. Released under the MIT License.</p>
+        </div>
+    </footer>
+
+    <script>
+        function openTab(evt, tabId) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab-link");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            document.querySelectorAll('.fade-up').forEach((el) => { observer.observe(el); });
+        });
+    </script>
+</body>
+</html>

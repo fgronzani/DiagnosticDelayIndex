@@ -3,181 +3,543 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diagnostic Delay Detector</title>
+    <title>Diagnostic Delay Observatory</title>
     
-    <!-- Modern Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
                 <i class="fa-solid fa-heart-pulse"></i>
-                <span>Diagnostic Delay Detector</span>
+                <span>Diagnostic Delay Observatory</span>
             </div>
             <a href="https://github.com/fgronzani/DiagnosticDelayIndex" class="github-link" target="_blank">
-                <i class="fa-brands fa-github"></i> Repository
+                <i class="fa-brands fa-github"></i> Source Code
             </a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-bg"></div>
         <div class="container hero-content">
-            <div class="badge">Production-Grade Pipeline</div>
-            <h1>Detecting the Invisible in Healthcare</h1>
-            <p>A sophisticated data science system that transforms standard hospital admission records into powerful predictive signals for diagnostic delays across geographic regions.</p>
-            <div class="hero-actions">
-                <a href="#visuals" class="btn btn-primary">Explore Insights</a>
-                <a href="https://github.com/fgronzani/DiagnosticDelayIndex" class="btn btn-secondary" target="_blank">View Source Code</a>
+            <div class="badge">Live Analytics Dashboard</div>
+            <h1>Automated Clinical Intelligence</h1>
+            <p>Tracking the Diagnostic Delay Index (DDI) indicative metrics across multiple conditions. This report is automatically generated using aggregated patient severity markers.</p>
+        </div>
+    </section>
+
+    <!-- Tab Navigation -->
+    <section class="tabs-section">
+        <div class="container">
+            <div class="tab-container">
+                
+                <button class="tab-link active" onclick="openTab(event, 'I21')">
+                    Acute Myocardial Infarction (AMI)
+                </button>
+                
+                <button class="tab-link " onclick="openTab(event, 'I63')">
+                    Ischemic Stroke
+                </button>
+                
+                <button class="tab-link " onclick="openTab(event, 'C34')">
+                    Lung Cancer
+                </button>
+                
             </div>
         </div>
     </section>
 
-    <!-- The Problem Section -->
-    <section class="problem-section container" id="about">
-        <div class="section-header text-center">
-            <h2>The Challenge of Late Presentation</h2>
-            <p class="subtitle">Without direct patient timelines, how do we track delayed diagnoses?</p>
-        </div>
-        <div class="grid-2">
-            <div class="problem-text">
-                <p>Healthcare systems worldwide face a critical vulnerability: patients arriving at hospitals with advanced, often preventable disease stages. Whether due to screening failures, socioeconomic barriers, or resource deserts, late presentation drastically increases mortality and ICU utilization.</p>
-                <div class="highlight-box">
-                    <i class="fa-solid fa-lightbulb"></i>
-                    <div>
-                        <strong>Our Innovation:</strong>
-                        <span>By leveraging a weighted composite Severity Score at the point of admission, we calculate a <em>Diagnostic Delay Index (DDI)</em>—an algorithmic proxy that flags exactly where and when clinical deterioration is happening at a population level.</span>
+    <!-- Tab Contents -->
+    <div class="container">
+        
+        <div id="I21" class="tab-content active">
+            
+            <div class="grid-2 mt-4">
+                <div class="clinical-report glassmorphism fade-up">
+                    <h3><i class="fa-solid fa-file-medical"></i> Automated Clinical Report</h3>
+                    <div class="report-text">
+                        ╔════════════════════════════════════════════════════════════════════╗<br>║  DIAGNOSTIC DELAY DETECTOR — CLINICAL INTERPRETATION REPORT       ║<br>╚════════════════════════════════════════════════════════════════════╝<br><br>Condition: Acute Myocardial Infarction (AMI)<br>ICD-10 prefixes: I21<br>═══ CLINICAL INTERPRETATION — Acute Myocardial Infarction (AMI) ═══<br><br><span style='color:red'>⚠️</span>  SIGNAL DETECTED: The Diagnostic Delay Index (DDI) shows a statistically significant INCREASING trend (p=0.0000) from 2015 to 2023.<br><br>This means a growing proportion of Acute Myocardial Infarction (AMI) patients are presenting at admission with indicators of advanced disease — including higher rates of ICU admission, mortality, and prolonged hospitalization.<br><br>📋 Possible explanations include:<br>   1. Delayed access to primary care or diagnostic services<br>   2. Barriers to seeking care (geographic, financial, cultural)<br>   3. Reduced availability or effectiveness of screening programs<br>   4. Changes in referral patterns or hospital admission criteria<br>   5. Demographic shifts (aging population) increasing baseline severity<br><br>📊 Total change: +75.8% over the analysis period.<br><br><span style='color:red'>⚠️</span>  IMPORTANT LIMITATIONS:<br>   • The DDI is a PROXY measure. It does not directly prove diagnostic delay.<br>   • Changes in coding practices, hospital capacity, or patient demographics<br>     may affect these indicators independently of actual diagnostic timing.<br>   • This analysis uses aggregate data without patient-level linkage.<br>   • Ecological fallacy: population-level trends may not apply to individuals.<br><br>═══ COMPONENT ANALYSIS — Acute Myocardial Infarction (AMI) ═══<br><br><span style='color:green'>📈</span> Mortality Rate: increasing (p=0.0124, significant)<br>   mortality among hospitalized patients<br><span style='color:green'>📈</span> ICU Admission Rate: increasing (p=0.0000, significant)<br>   ICU utilization among admissions<br><span style='color:green'>📈</span> Average Severity Score: increasing (p=0.0000, significant)<br>   composite severity measure<br><br>🚨 CONVERGENT SIGNAL: Both mortality AND ICU rates are increasing significantly. This pattern is strongly consistent with later presentation of Acute Myocardial Infarction (AMI), though confounding factors must be investigated.<br><br>═══ REGIONAL ANALYSIS — Acute Myocardial Infarction (AMI) ═══<br><br>Analyzed 20 regions with sufficient case volume (≥30 cases).<br><br>Mean DDI across regions: 25.2% (range: 38.5%)<br><br><span style='color:red'>⚠️</span>  SUBSTANTIAL REGIONAL VARIATION detected. The 38.5% spread in DDI across regions suggests significant geographic disparities in disease severity at presentation.<br><br>Regions with higher DDI may face:<br>   • Limited access to diagnostic facilities<br>   • Shortage of primary care providers<br>   • Geographic barriers to healthcare<br>   • Socioeconomic factors affecting care-seeking behavior<br><br>🔴 Highest DDI regions (potential priority areas):<br>   • Campinas: DDI = 50.2%<br>   • Brasília: DDI = 40.1%<br>   • Florianópolis: DDI = 35.7%<br>   • São Paulo: DDI = 35.6%<br>   • Natal: DDI = 34.3%<br><br>🟢 Lowest DDI regions:<br>   • Maceió: DDI = 11.7%<br>   • Salvador: DDI = 13.9%<br>   • João Pessoa: DDI = 15.4%<br>   • São Luís: DDI = 15.6%<br>   • Guarulhos: DDI = 16.8%<br><br>═══ AGE-ADJUSTED ANALYSIS ═══<br><br>  <span style='color:green'>📈</span> 18-39: increasing (p=0.0204) ✓<br>  <span style='color:green'>📈</span> 40-59: increasing (p=0.0013) ✓<br>  <span style='color:green'>📈</span> 60-79: increasing (p=0.0000) ✓<br>  <span style='color:green'>📈</span> 80+: increasing (p=0.0428) ✓<br><br>  <span style='color:red'>⚠️</span>  Age groups with significant increasing DDI: 18-39, 40-59, 60-79, 80+<br>  This may indicate targeted screening or access barriers for these demographics.<br><br>──────────────────────────────────────────────────────────────────────<br>📌 DISCLAIMER: This analysis detects INDIRECT SIGNALS using proxy indicators. Results suggest patterns worthy of investigation but do NOT constitute proof of diagnostic delay. Clinical audit, patient pathway analysis, and expert review are required before policy action.<br>──────────────────────────────────────────────────────────────────────
+                    </div>
+                </div>
+                
+                <div class="fade-up">
+                    <div class="showcase-image mb-4">
+                        <img src="assets/I21_ddi_time_series.png" alt="Temporal Trends" loading="lazy">
+                    </div>
+                    <div class="showcase-image">
+                        <img src="assets/I21_regional_ddi_bar.png" alt="Regional DDI" loading="lazy">
                     </div>
                 </div>
             </div>
-            <div class="methodology-card glassmorphism">
-                <h3>The Severity Matrix</h3>
-                <div class="math-formula">
-                    <code>Severity = (2 × ICU) + (3 × Mortality) + (1 × LOS)</code>
-                </div>
-                <ul class="feature-list">
-                    <li><i class="fa-solid fa-check text-green"></i> <strong>Age-Adjusted:</strong> Controls for demographic shifts over time.</li>
-                    <li><i class="fa-solid fa-check text-green"></i> <strong>Spatio-Temporal:</strong> Tracks exactly which municipalities are degrading.</li>
-                    <li><i class="fa-solid fa-check text-green"></i> <strong>Clinical Narrative:</strong> Generates automated plain-language reports for policymakers.</li>
-                </ul>
-            </div>
-        </div>
-    </section>
 
-    <!-- Data Visualizations Showcase -->
-    <section class="showcase-section bg-light" id="visuals">
-        <div class="container">
-            <div class="section-header text-center">
-                <h2>Data-Driven Visual Intelligence</h2>
-                <p class="subtitle">From raw CSV files to publication-ready operational intelligence.</p>
-            </div>
-
-            <!-- Showcase Item 1: Time Series -->
-            <div class="showcase-card">
+            <div class="grid-2 mt-4 fade-up">
                 <div class="showcase-image">
-                    <img src="assets/ddi_time_series.png" alt="Temporal Trends" loading="lazy">
+                    <img src="assets/I21_regional_temporal_heatmap.png" alt="Geographic Heatmap" loading="lazy">
                 </div>
-                <div class="showcase-info">
-                    <div class="icon-wrapper"><i class="fa-solid fa-chart-line"></i></div>
-                    <h3>Temporal Degradation Tracking</h3>
-                    <p>Monitors highly sensitive operational metrics—DDI, Mortality Rate, ICU utilization, and Average Severity—over multi-year intervals. Integrated with Mann-Kendall tests to prove statistical significance in deterioration patterns.</p>
-                </div>
-            </div>
-
-            <!-- Showcase Item 2: Heatmap -->
-            <div class="showcase-card reverse">
                 <div class="showcase-image">
-                    <img src="assets/regional_temporal_heatmap.png" alt="Geographic Heatmap" loading="lazy">
-                </div>
-                <div class="showcase-info">
-                    <div class="icon-wrapper"><i class="fa-solid fa-map-location-dot"></i></div>
-                    <h3>Spatio-Temporal Hotspots</h3>
-                    <p>Instantly identifies regional care deserts. The heatmap cross-references municipalities against temporal progress, pinpointing exactly where public health interventions (like screening campaigns) are failing.</p>
+                    <img src="assets/I21_age_adjusted_ddi.png" alt="Age-Adjusted Trends" loading="lazy">
                 </div>
             </div>
 
-            <!-- Grid for Smaller Visuals -->
-            <div class="grid-3 mt-4">
-                <div class="mini-card glassmorphism">
-                    <img src="assets/regional_ddi_bar.png" alt="Regional Ranking" >
-                    <h4>Regional Ranking System</h4>
-                    <p>Identifies worst-offending localities for targeted resource reallocation.</p>
-                </div>
-                <div class="mini-card glassmorphism">
-                    <img src="assets/severity_distribution.png" alt="Severity Distribution" >
-                    <h4>Severity Footprint</h4>
-                    <p>Visualizes the absolute population shifts across critical severity thresholds.</p>
-                </div>
-                <div class="mini-card glassmorphism">
-                    <img src="assets/age_adjusted_ddi.png" alt="Age-Adjusted Trends" >
-                    <h4>Demographic Stratification</h4>
-                    <p>Evaluates whether diagnostic delay is affecting youth versus elderly populations.</p>
+            <div class="data-tables mt-4 fade-up">
+                <div class="table-container glassmorphism mb-4">
+                    <h3><i class="fa-solid fa-table"></i> Temporal Metrics</h3>
+                    <table border="1" class="dataframe dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>ddi</th>
+      <th>mortality_rate</th>
+      <th>icu_rate</th>
+      <th>avg_severity</th>
+      <th>median_severity</th>
+      <th>avg_los</th>
+      <th>total_cases</th>
+      <th>ano</th>
+      <th>low_sample</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.173</td>
+      <td>0.031</td>
+      <td>0.119</td>
+      <td>0.362</td>
+      <td>0.025</td>
+      <td>6.095</td>
+      <td>1042</td>
+      <td>2015</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.205</td>
+      <td>0.041</td>
+      <td>0.127</td>
+      <td>0.412</td>
+      <td>0.025</td>
+      <td>6.637</td>
+      <td>1147</td>
+      <td>2016</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.213</td>
+      <td>0.026</td>
+      <td>0.170</td>
+      <td>0.451</td>
+      <td>0.025</td>
+      <td>6.259</td>
+      <td>464</td>
+      <td>2017</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.241</td>
+      <td>0.044</td>
+      <td>0.178</td>
+      <td>0.519</td>
+      <td>0.025</td>
+      <td>6.317</td>
+      <td>962</td>
+      <td>2018</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.257</td>
+      <td>0.046</td>
+      <td>0.192</td>
+      <td>0.553</td>
+      <td>0.031</td>
+      <td>6.339</td>
+      <td>966</td>
+      <td>2019</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.266</td>
+      <td>0.068</td>
+      <td>0.195</td>
+      <td>0.628</td>
+      <td>0.031</td>
+      <td>6.604</td>
+      <td>1191</td>
+      <td>2020</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.275</td>
+      <td>0.053</td>
+      <td>0.216</td>
+      <td>0.623</td>
+      <td>0.025</td>
+      <td>6.389</td>
+      <td>969</td>
+      <td>2021</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.306</td>
+      <td>0.077</td>
+      <td>0.238</td>
+      <td>0.742</td>
+      <td>0.031</td>
+      <td>6.614</td>
+      <td>1092</td>
+      <td>2022</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.304</td>
+      <td>0.055</td>
+      <td>0.241</td>
+      <td>0.681</td>
+      <td>0.031</td>
+      <td>6.435</td>
+      <td>1057</td>
+      <td>2023</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Call to Action -->
-    <section class="cta-section">
-        <div class="container text-center">
-            <h2>Ready to Audit Your Health System?</h2>
-            <p>Deploy the CLI pipeline against DataSUS (Brazilian SIH) or map your own custom clinical database in minutes.</p>
+        
+        <div id="I63" class="tab-content ">
             
-            <div class="terminal-mockup">
-                <div class="terminal-header">
-                    <span class="dot red"></span>
-                    <span class="dot yellow"></span>
-                    <span class="dot green"></span>
+            <div class="grid-2 mt-4">
+                <div class="clinical-report glassmorphism fade-up">
+                    <h3><i class="fa-solid fa-file-medical"></i> Automated Clinical Report</h3>
+                    <div class="report-text">
+                        ╔════════════════════════════════════════════════════════════════════╗<br>║  DIAGNOSTIC DELAY DETECTOR — CLINICAL INTERPRETATION REPORT       ║<br>╚════════════════════════════════════════════════════════════════════╝<br><br>Condition: Ischemic Stroke<br>ICD-10 prefixes: I63<br>═══ CLINICAL INTERPRETATION — Ischemic Stroke ═══<br><br>ℹ️  NO SIGNIFICANT TREND: The DDI does not show a statistically significant temporal trend (p=0.0974) over the period 2015–2023.<br><br>Severity patterns for Ischemic Stroke appear relatively stable, though this does not rule out localized or subgroup-level changes.<br><br>📊 Total change: +93.2% over the analysis period.<br><br><span style='color:red'>⚠️</span>  IMPORTANT LIMITATIONS:<br>   • The DDI is a PROXY measure. It does not directly prove diagnostic delay.<br>   • Changes in coding practices, hospital capacity, or patient demographics<br>     may affect these indicators independently of actual diagnostic timing.<br>   • This analysis uses aggregate data without patient-level linkage.<br>   • Ecological fallacy: population-level trends may not apply to individuals.<br><br>═══ COMPONENT ANALYSIS — Ischemic Stroke ═══<br><br><span style='color:green'>📈</span> Mortality Rate: increasing (p=0.1769, not significant)<br>   mortality among hospitalized patients<br><span style='color:green'>📈</span> ICU Admission Rate: increasing (p=0.1119, not significant)<br>   ICU utilization among admissions<br><span style='color:green'>📈</span> Average Severity Score: increasing (p=0.1189, not significant)<br>   composite severity measure<br><br>═══ REGIONAL ANALYSIS — Ischemic Stroke ═══<br><br>Analyzed 20 regions with sufficient case volume (≥30 cases).<br><br>Mean DDI across regions: 25.7% (range: 48.4%)<br><br><span style='color:red'>⚠️</span>  SUBSTANTIAL REGIONAL VARIATION detected. The 48.4% spread in DDI across regions suggests significant geographic disparities in disease severity at presentation.<br><br>Regions with higher DDI may face:<br>   • Limited access to diagnostic facilities<br>   • Shortage of primary care providers<br>   • Geographic barriers to healthcare<br>   • Socioeconomic factors affecting care-seeking behavior<br><br>🔴 Highest DDI regions (potential priority areas):<br>   • Campinas: DDI = 54.3%<br>   • Brasília: DDI = 51.4%<br>   • Florianópolis: DDI = 46.9%<br>   • São Paulo: DDI = 41.5%<br>   • Belém: DDI = 33.3%<br><br>🟢 Lowest DDI regions:<br>   • Guarulhos: DDI = 5.9%<br>   • São Luís: DDI = 8.3%<br>   • Salvador: DDI = 9.4%<br>   • João Pessoa: DDI = 10.3%<br>   • Curitiba: DDI = 10.8%<br><br>═══ AGE-ADJUSTED ANALYSIS ═══<br><br>  <span style='color:green'>📈</span> 40-59: increasing (p=0.5055) <br>  ➡️ 60-79: insufficient_data (p=nan) <br><br>──────────────────────────────────────────────────────────────────────<br>📌 DISCLAIMER: This analysis detects INDIRECT SIGNALS using proxy indicators. Results suggest patterns worthy of investigation but do NOT constitute proof of diagnostic delay. Clinical audit, patient pathway analysis, and expert review are required before policy action.<br>──────────────────────────────────────────────────────────────────────
+                    </div>
                 </div>
-                <div class="terminal-body">
-                    <span class="prompt">$</span> pip install -r requirements.txt<br>
-                    <span class="prompt">$</span> python main.py --condition I63 --name "Ischemic Stroke"<br>
-                    <span class="output">✓ Processed 15,000 algorithmic records</span><br>
-                    <span class="output">✓ P-value: 0.001 (Statistically Significant Deterioration)</span><br>
-                    <span class="output">✓ Generated 5 publication-ready charts & clinical narrative</span>
+                
+                <div class="fade-up">
+                    <div class="showcase-image mb-4">
+                        <img src="assets/I63_ddi_time_series.png" alt="Temporal Trends" loading="lazy">
+                    </div>
+                    <div class="showcase-image">
+                        <img src="assets/I63_regional_ddi_bar.png" alt="Regional DDI" loading="lazy">
+                    </div>
                 </div>
             </div>
-            
-            <div class="mt-4">
-                <a href="https://github.com/fgronzani/DiagnosticDelayIndex" class="btn btn-primary" target="_blank">Access the Repository</a>
+
+            <div class="grid-2 mt-4 fade-up">
+                <div class="showcase-image">
+                    <img src="assets/I63_regional_temporal_heatmap.png" alt="Geographic Heatmap" loading="lazy">
+                </div>
+                <div class="showcase-image">
+                    <img src="assets/I63_age_adjusted_ddi.png" alt="Age-Adjusted Trends" loading="lazy">
+                </div>
+            </div>
+
+            <div class="data-tables mt-4 fade-up">
+                <div class="table-container glassmorphism mb-4">
+                    <h3><i class="fa-solid fa-table"></i> Temporal Metrics</h3>
+                    <table border="1" class="dataframe dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>ddi</th>
+      <th>mortality_rate</th>
+      <th>icu_rate</th>
+      <th>avg_severity</th>
+      <th>median_severity</th>
+      <th>avg_los</th>
+      <th>total_cases</th>
+      <th>ano</th>
+      <th>low_sample</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.128</td>
+      <td>0.012</td>
+      <td>0.093</td>
+      <td>0.292</td>
+      <td>0.053</td>
+      <td>5.058</td>
+      <td>86</td>
+      <td>2015</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.235</td>
+      <td>0.059</td>
+      <td>0.167</td>
+      <td>0.613</td>
+      <td>0.070</td>
+      <td>6.892</td>
+      <td>102</td>
+      <td>2016</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.308</td>
+      <td>0.103</td>
+      <td>0.231</td>
+      <td>0.874</td>
+      <td>0.105</td>
+      <td>7.000</td>
+      <td>39</td>
+      <td>2017</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.243</td>
+      <td>0.027</td>
+      <td>0.176</td>
+      <td>0.529</td>
+      <td>0.088</td>
+      <td>6.500</td>
+      <td>74</td>
+      <td>2018</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.200</td>
+      <td>0.013</td>
+      <td>0.120</td>
+      <td>0.371</td>
+      <td>0.070</td>
+      <td>6.173</td>
+      <td>75</td>
+      <td>2019</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.303</td>
+      <td>0.083</td>
+      <td>0.211</td>
+      <td>0.775</td>
+      <td>0.088</td>
+      <td>7.028</td>
+      <td>109</td>
+      <td>2020</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.321</td>
+      <td>0.062</td>
+      <td>0.247</td>
+      <td>0.799</td>
+      <td>0.123</td>
+      <td>7.852</td>
+      <td>81</td>
+      <td>2021</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.329</td>
+      <td>0.082</td>
+      <td>0.235</td>
+      <td>0.802</td>
+      <td>0.070</td>
+      <td>5.788</td>
+      <td>85</td>
+      <td>2022</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.247</td>
+      <td>0.094</td>
+      <td>0.188</td>
+      <td>0.762</td>
+      <td>0.088</td>
+      <td>6.859</td>
+      <td>85</td>
+      <td>2023</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+                </div>
             </div>
         </div>
-    </section>
+        
+        <div id="C34" class="tab-content ">
+            
+            <div class="grid-2 mt-4">
+                <div class="clinical-report glassmorphism fade-up">
+                    <h3><i class="fa-solid fa-file-medical"></i> Automated Clinical Report</h3>
+                    <div class="report-text">
+                        ╔════════════════════════════════════════════════════════════════════╗<br>║  DIAGNOSTIC DELAY DETECTOR — CLINICAL INTERPRETATION REPORT       ║<br>╚════════════════════════════════════════════════════════════════════╝<br><br>Condition: Lung Cancer<br>ICD-10 prefixes: C34<br>═══ CLINICAL INTERPRETATION — Lung Cancer ═══<br><br><span style='color:red'>⚠️</span>  SIGNAL DETECTED: The Diagnostic Delay Index (DDI) shows a statistically significant INCREASING trend (p=0.0107) from 2015 to 2023.<br><br>This means a growing proportion of Lung Cancer patients are presenting at admission with indicators of advanced disease — including higher rates of ICU admission, mortality, and prolonged hospitalization.<br><br>📋 Possible explanations include:<br>   1. Delayed access to primary care or diagnostic services<br>   2. Barriers to seeking care (geographic, financial, cultural)<br>   3. Reduced availability or effectiveness of screening programs<br>   4. Changes in referral patterns or hospital admission criteria<br>   5. Demographic shifts (aging population) increasing baseline severity<br><br>📊 Total change: +147.2% over the analysis period.<br><br><span style='color:red'>⚠️</span>  IMPORTANT LIMITATIONS:<br>   • The DDI is a PROXY measure. It does not directly prove diagnostic delay.<br>   • Changes in coding practices, hospital capacity, or patient demographics<br>     may affect these indicators independently of actual diagnostic timing.<br>   • This analysis uses aggregate data without patient-level linkage.<br>   • Ecological fallacy: population-level trends may not apply to individuals.<br><br>═══ COMPONENT ANALYSIS — Lung Cancer ═══<br><br><span style='color:green'>📈</span> Mortality Rate: increasing (p=0.0654, not significant)<br>   mortality among hospitalized patients<br><span style='color:green'>📈</span> ICU Admission Rate: increasing (p=0.0094, significant)<br>   ICU utilization among admissions<br><span style='color:green'>📈</span> Average Severity Score: increasing (p=0.0090, significant)<br>   composite severity measure<br><br>═══ REGIONAL ANALYSIS — Lung Cancer ═══<br><br>Analyzed 19 regions with sufficient case volume (≥30 cases).<br><br>Mean DDI across regions: 24.2% (range: 44.7%)<br><br><span style='color:red'>⚠️</span>  SUBSTANTIAL REGIONAL VARIATION detected. The 44.7% spread in DDI across regions suggests significant geographic disparities in disease severity at presentation.<br><br>Regions with higher DDI may face:<br>   • Limited access to diagnostic facilities<br>   • Shortage of primary care providers<br>   • Geographic barriers to healthcare<br>   • Socioeconomic factors affecting care-seeking behavior<br><br>🔴 Highest DDI regions (potential priority areas):<br>   • Campinas: DDI = 53.1%<br>   • São Paulo: DDI = 40.5%<br>   • Natal: DDI = 39.5%<br>   • Belo Horizonte: DDI = 33.3%<br>   • Recife: DDI = 31.9%<br><br>🟢 Lowest DDI regions:<br>   • João Pessoa: DDI = 8.3%<br>   • Guarulhos: DDI = 9.5%<br>   • Manaus: DDI = 12.9%<br>   • São Luís: DDI = 13.9%<br>   • Salvador: DDI = 15.9%<br><br>═══ AGE-ADJUSTED ANALYSIS ═══<br><br>  <span style='color:green'>📈</span> 40-59: increasing (p=0.1260) <br>  <span style='color:green'>📈</span> 60-79: increasing (p=0.3391) <br><br>──────────────────────────────────────────────────────────────────────<br>📌 DISCLAIMER: This analysis detects INDIRECT SIGNALS using proxy indicators. Results suggest patterns worthy of investigation but do NOT constitute proof of diagnostic delay. Clinical audit, patient pathway analysis, and expert review are required before policy action.<br>──────────────────────────────────────────────────────────────────────
+                    </div>
+                </div>
+                
+                <div class="fade-up">
+                    <div class="showcase-image mb-4">
+                        <img src="assets/C34_ddi_time_series.png" alt="Temporal Trends" loading="lazy">
+                    </div>
+                    <div class="showcase-image">
+                        <img src="assets/C34_regional_ddi_bar.png" alt="Regional DDI" loading="lazy">
+                    </div>
+                </div>
+            </div>
 
-    <!-- Footer -->
+            <div class="grid-2 mt-4 fade-up">
+                <div class="showcase-image">
+                    <img src="assets/C34_regional_temporal_heatmap.png" alt="Geographic Heatmap" loading="lazy">
+                </div>
+                <div class="showcase-image">
+                    <img src="assets/C34_age_adjusted_ddi.png" alt="Age-Adjusted Trends" loading="lazy">
+                </div>
+            </div>
+
+            <div class="data-tables mt-4 fade-up">
+                <div class="table-container glassmorphism mb-4">
+                    <h3><i class="fa-solid fa-table"></i> Temporal Metrics</h3>
+                    <table border="1" class="dataframe dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>ddi</th>
+      <th>mortality_rate</th>
+      <th>icu_rate</th>
+      <th>avg_severity</th>
+      <th>median_severity</th>
+      <th>avg_los</th>
+      <th>total_cases</th>
+      <th>ano</th>
+      <th>low_sample</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.157</td>
+      <td>0.010</td>
+      <td>0.127</td>
+      <td>0.346</td>
+      <td>0.047</td>
+      <td>6.235</td>
+      <td>102</td>
+      <td>2015</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.207</td>
+      <td>0.045</td>
+      <td>0.099</td>
+      <td>0.395</td>
+      <td>0.035</td>
+      <td>6.207</td>
+      <td>111</td>
+      <td>2016</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.282</td>
+      <td>0.051</td>
+      <td>0.205</td>
+      <td>0.619</td>
+      <td>0.059</td>
+      <td>5.641</td>
+      <td>39</td>
+      <td>2017</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.227</td>
+      <td>0.023</td>
+      <td>0.170</td>
+      <td>0.466</td>
+      <td>0.035</td>
+      <td>5.852</td>
+      <td>88</td>
+      <td>2018</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.198</td>
+      <td>0.012</td>
+      <td>0.198</td>
+      <td>0.498</td>
+      <td>0.035</td>
+      <td>6.605</td>
+      <td>81</td>
+      <td>2019</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.250</td>
+      <td>0.038</td>
+      <td>0.152</td>
+      <td>0.483</td>
+      <td>0.047</td>
+      <td>6.621</td>
+      <td>132</td>
+      <td>2020</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.309</td>
+      <td>0.074</td>
+      <td>0.259</td>
+      <td>0.791</td>
+      <td>0.059</td>
+      <td>5.309</td>
+      <td>81</td>
+      <td>2021</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.271</td>
+      <td>0.042</td>
+      <td>0.208</td>
+      <td>0.606</td>
+      <td>0.053</td>
+      <td>6.448</td>
+      <td>96</td>
+      <td>2022</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>0.388</td>
+      <td>0.092</td>
+      <td>0.286</td>
+      <td>0.902</td>
+      <td>0.071</td>
+      <td>5.684</td>
+      <td>98</td>
+      <td>2023</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
     <footer>
-        <div class="container">
-            <div class="footer-content text-center">
-                <div class="logo">
-                    <i class="fa-solid fa-heart-pulse"></i>
-                    <span>Diagnostic Delay Detector</span>
-                </div>
-                <p>Architected by Filipe para o futuro da saúde baseada em dados.</p>
-                <p class="copyright">&copy; 2026. Released under the MIT License.</p>
-            </div>
+        <div class="container text-center">
+            <p>Generated dynamically by the Diagnostic Delay Pipeline.</p>
+            <p class="copyright">&copy; 2026. Released under the MIT License.</p>
         </div>
     </footer>
 
-    <!-- Simple Scroll Animation Script -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
+        function openTab(evt, tabId) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab-link");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
 
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -186,11 +548,7 @@
                     }
                 });
             }, observerOptions);
-
-            document.querySelectorAll('.showcase-card, .mini-card, .problem-text, .methodology-card, .terminal-mockup').forEach((el) => {
-                el.classList.add('fade-up');
-                observer.observe(el);
-            });
+            document.querySelectorAll('.fade-up').forEach((el) => { observer.observe(el); });
         });
     </script>
 </body>

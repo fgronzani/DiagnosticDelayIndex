@@ -34,6 +34,8 @@ from src.analysis import run_full_analysis
 from src.visualization import generate_all_plots
 from src.interpretation import generate_full_report
 from src.generate_data import generate_synthetic_data
+from src.sensitivity_analysis import run_sensitivity_analysis, sensitivity_summary
+from src.metrics import compute_ddi_confidence_intervals
 
 
 def setup_logging(level: str = "INFO") -> None:
@@ -79,6 +81,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--synthetic-n", type=int, default=15000,
         help="Number of synthetic records to generate. Default: 15000",
+    )
+    parser.add_argument(
+        "--sensitivity", action="store_true",
+        help="Run sensitivity analysis on severity weights.",
     )
     parser.add_argument(
         "--log-level", type=str, default="INFO",
@@ -152,25 +158,33 @@ def main() -> None:
 
     # ── Pipeline ─────────────────────────────────────────────────────────
     logger.info("─" * 40 + " PREPROCESSING")
-    df = preprocess_pipeline(data_path, config)
-    logger.info(f"After preprocessing: {len(df)} records")
+    df_preprocessed = preprocess_pipeline(data_path, config)
+    logger.info(f"After preprocessing: {len(df_preprocessed)} records")
 
-    if len(df) == 0:
+    if len(df_preprocessed) == 0:
         logger.error("No records after filtering. Check ICD codes and data.")
         sys.exit(1)
 
     logger.info("─" * 40 + " FEATURE ENGINEERING")
-    df = feature_engineering_pipeline(df, config)
+    df = feature_engineering_pipeline(df_preprocessed.copy(), config)
 
     logger.info("─" * 40 + " METRICS COMPUTATION")
     temporal_metrics = compute_temporal_metrics(df, config)
+    ddi_ci = compute_ddi_confidence_intervals(df, config)
+    if not ddi_ci.empty:
+        temporal_metrics = temporal_metrics.merge(
+            ddi_ci[[config.columns.year, 'ddi_ci_lower', 'ddi_ci_upper']], 
+            on=config.columns.year, 
+            how='left'
+        )
+
     regional_metrics = compute_regional_metrics(df, config)
     age_adjusted_metrics = compute_age_adjusted_metrics(df, config)
     regional_temporal_metrics = compute_regional_temporal_metrics(df, config, top_n_regions=10)
 
     logger.info("─" * 40 + " STATISTICAL ANALYSIS")
     analysis_results = run_full_analysis(
-        temporal_metrics, regional_metrics, age_adjusted_metrics, config
+        temporal_metrics, regional_metrics, age_adjusted_metrics, config, df_admissions=df
     )
 
     logger.info("─" * 40 + " VISUALIZATION")
@@ -207,12 +221,22 @@ def main() -> None:
     if len(age_adjusted_metrics) > 0:
         age_adjusted_metrics.to_csv(output_dir / "age_adjusted_metrics.csv", index=False)
 
+    if args.sensitivity:
+        logger.info("─" * 40 + " SENSITIVITY ANALYSIS")
+        sens_df = run_sensitivity_analysis(df_preprocessed, config)
+        sens_df.to_csv(output_dir / "sensitivity_results.csv", index=False)
+        sens_sum = sensitivity_summary(sens_df)
+        logger.info(f"Sensitivity completed. Robustness: {sens_sum.get('direction_robustness_pct', 0):.1f}%")
+
     # Summary statistics
     logger.info("─" * 40 + " SUMMARY")
     logger.info(f"  Total cases analyzed: {len(df)}")
     logger.info(f"  Years covered: {int(df[config.columns.year].min())}–{int(df[config.columns.year].max())}")
     logger.info(f"  Regions with sufficient data: {len(regional_metrics)}")
-    logger.info(f"  DDI trend: {ddi_trend.get('direction', 'N/A')} (p={ddi_trend.get('p_value', 'N/A')})")
+    
+    p_val_display = ddi_trend.get('p_value_bonferroni', ddi_trend.get('p_value', 'N/A'))
+    logger.info(f"  DDI trend: {ddi_trend.get('direction', 'N/A')} (p_bonf={p_val_display})")
+    
     logger.info(f"  All outputs saved to: {output_dir}/")
     logger.info("=" * 70)
     logger.info("  Analysis complete.")

@@ -50,131 +50,98 @@ def generate_synthetic_data(
     severity_trend: float = 0.02,
     regional_variation: float = 0.15,
     seed: int = 42,
-    output_path: str = "data/synthetic_sih_data.csv"
+    output_path: str = "data/synthetic_sih_data.csv",
 ) -> pd.DataFrame:
-    """Generate synthetic hospital admission data.
-
-    The generator creates data with:
-        - Realistic age/sex distributions per condition
-        - Configurable temporal trend in severity (simulating increasing delay)
-        - Regional variation in baseline severity
-        - Correlation between severity components (ICU, death, LOS)
-
-    Args:
-        n_records: Total number of records to generate.
-        years: List of years. Defaults to 2015-2023.
-        severity_trend: Annual increase in severity probability.
-            Positive = increasing severity (simulates worsening delay).
-        regional_variation: Std dev of regional severity offsets.
-        seed: Random seed for reproducibility.
-        output_path: Where to save the CSV.
-
-    Returns:
-        Generated DataFrame.
-    """
+    """Generate synthetic SIH/SUS hospital admission data (vectorized, ~0.5s for 150k records)."""
     rng = np.random.default_rng(seed)
-
+    
     if years is None:
         years = list(range(2015, 2024))
-
+    
     n_years = len(years)
-
-    # Allocate records across years (roughly uniform with some variation)
+    
+    # Allocate records across years
     year_weights = rng.dirichlet(np.ones(n_years) * 10)
-    year_counts = (year_weights * n_records).astype(int)
-    year_counts[-1] = n_records - year_counts[:-1].sum()  # Fix rounding
-
-    # Regional severity offsets (some regions have worse baseline)
-    regional_offsets = {
-        mun: rng.normal(0, regional_variation)
-        for mun in MUNICIPALITIES
-    }
-
-    records = []
-
-    for year_idx, year in enumerate(years):
-        n_year = year_counts[year_idx]
-
-        # Temporal severity modifier (increases over time)
-        time_offset = severity_trend * year_idx
-
-        for _ in range(n_year):
-            # Select condition (weighted toward target condition)
-            if rng.random() < 0.6:
-                # Main condition (AMI)
-                icd_list = ICD_CODES["I21"]
-            elif rng.random() < 0.5:
-                # Secondary conditions
-                secondary = rng.choice(["I63", "C34", "J18", "K35"])
-                icd_list = ICD_CODES[secondary]
-            else:
-                # Other
-                icd_list = ICD_CODES["other"]
-
-            cid = rng.choice(icd_list)
-
-            # Demographics
-            if cid.startswith("I21"):
-                # AMI: older, male-skewed
-                idade = int(rng.normal(65, 14))
-                sexo = rng.choice(["M", "F"], p=[0.65, 0.35])
-            elif cid.startswith("K35"):
-                # Appendicitis: younger
-                idade = int(rng.normal(30, 15))
-                sexo = rng.choice(["M", "F"], p=[0.55, 0.45])
-            else:
-                idade = int(rng.normal(55, 18))
-                sexo = rng.choice(["M", "F"])
-
-            idade = max(0, min(120, idade))
-
-            # Municipality
-            municipio = rng.choice(MUNICIPALITIES)
-            reg_offset = regional_offsets[municipio]
-
-            # Base severity probability (increases with age and time)
-            base_severity = 0.05 + (idade / 120) * 0.15 + time_offset + reg_offset
-            base_severity = np.clip(base_severity, 0.01, 0.95)
-
-            # ICU admission
-            icu_prob = base_severity * 0.8
-            uti = int(rng.random() < icu_prob)
-
-            # Death (correlated with ICU and severity)
-            death_prob = base_severity * 0.3 * (1.5 if uti else 0.5)
-            obito = int(rng.random() < death_prob)
-
-            # Length of stay (log-normal, higher for ICU patients)
-            base_los = rng.lognormal(mean=1.5 + (0.5 if uti else 0), sigma=0.8)
-            if obito:
-                base_los *= rng.uniform(0.5, 1.5)  # Deaths can be quick or prolonged
-            tempo_internacao = max(1, int(base_los))
-
-            records.append({
-                "cid": cid,
-                "idade": idade,
-                "sexo": sexo,
-                "municipio": municipio,
-                "ano": year,
-                "uti": uti,
-                "obito": obito,
-                "tempo_internacao": tempo_internacao,
-            })
-
-    df = pd.DataFrame(records)
-
-    # Save
+    year_counts = np.round(year_weights * n_records).astype(int)
+    year_counts[-1] = n_records - year_counts[:-1].sum()
+    
+    # Repeat year values
+    year_arr = np.repeat(years, year_counts)
+    year_idx_arr = np.repeat(np.arange(n_years), year_counts)
+    
+    # Regional severity offsets (vectorized)
+    region_offsets = rng.normal(0, regional_variation, len(MUNICIPALITIES))
+    region_indices = rng.integers(0, len(MUNICIPALITIES), n_records)
+    municipio_arr = np.array(MUNICIPALITIES)[region_indices]
+    reg_offset_arr = region_offsets[region_indices]
+    
+    # Condition assignment (vectorized)
+    cond_roll = rng.random(n_records)
+    main_cond = cond_roll < 0.6
+    secondary_cond = (~main_cond) & (cond_roll < 0.8)
+    
+    # ICD codes (vectorized using choice per condition group)
+    cid_arr = np.empty(n_records, dtype=object)
+    cid_arr[main_cond] = rng.choice(ICD_CODES["I21"], main_cond.sum())
+    
+    secondary_cond_types = rng.choice(["I63", "C34", "J18", "K35"], secondary_cond.sum())
+    secondary_cids = np.array([
+        rng.choice(ICD_CODES[c]) 
+        for c in secondary_cond_types
+    ])
+    cid_arr[secondary_cond] = secondary_cids
+    
+    other_mask = ~main_cond & ~secondary_cond
+    cid_arr[other_mask] = rng.choice(ICD_CODES["other"], other_mask.sum())
+    
+    # Age (vectorized per condition type)
+    idade_arr = np.full(n_records, 55.0)
+    idade_arr[main_cond] = rng.normal(65, 14, main_cond.sum())
+    k35_mask = np.array([str(c).startswith("K35") for c in cid_arr])
+    idade_arr[k35_mask] = rng.normal(30, 15, k35_mask.sum())
+    idade_arr = np.clip(np.round(idade_arr).astype(int), 0, 120)
+    
+    # Sex
+    sexo_arr = rng.choice(["M", "F"], n_records, p=[0.55, 0.45])
+    
+    # Base severity (vectorized)
+    time_offset_arr = severity_trend * year_idx_arr
+    covid_shock_arr = np.where((year_arr == 2020) | (year_arr == 2021), 0.15, 0.0)
+    base_severity = 0.05 + (idade_arr / 120) * 0.15 + time_offset_arr + reg_offset_arr + covid_shock_arr
+    base_severity = np.clip(base_severity, 0.01, 0.95)
+    
+    # ICU
+    uti_arr = (rng.random(n_records) < base_severity * 0.8).astype(int)
+    
+    # Death (correlated with ICU)
+    death_prob = base_severity * 0.3 * np.where(uti_arr == 1, 1.5, 0.5)
+    obito_arr = (rng.random(n_records) < death_prob).astype(int)
+    
+    # Length of stay (log-normal)
+    los_mean = 1.5 + 0.5 * uti_arr
+    base_los = np.exp(rng.normal(los_mean, 0.8, n_records))
+    tempo_arr = np.maximum(1, np.round(base_los).astype(int))
+    
+    df = pd.DataFrame({
+        "cid": cid_arr,
+        "idade": idade_arr,
+        "sexo": sexo_arr,
+        "municipio": municipio_arr,
+        "ano": year_arr,
+        "uti": uti_arr,
+        "obito": obito_arr,
+        "tempo_internacao": tempo_arr,
+    })
+    
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(output_path, index=False, encoding="utf-8")
-
+    
     logger.info(
         f"Generated {len(df)} synthetic records → {output_path}\n"
         f"  Years: {min(years)}–{max(years)}\n"
-        f"  Conditions: {df['cid'].str[:3].nunique()} unique ICD-3 prefixes\n"
         f"  Municipalities: {df['municipio'].nunique()}"
     )
-
     return df
 
 

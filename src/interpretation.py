@@ -32,8 +32,9 @@ def interpret_ddi_trend(trend_info: dict, config: AnalysisConfig) -> str:
     metric = trend_info.get("metric", "ddi")
     direction = trend_info.get("direction", "unknown")
     p_value = trend_info.get("p_value", 1.0)
+    p_bonf = trend_info.get("p_value_bonferroni", p_value)
     slope = trend_info.get("slope", 0)
-    significant = trend_info.get("significant", False)
+    significant = trend_info.get("significant_bonferroni", trend_info.get("significant", False))
     first_year = trend_info.get("first_year", "N/A")
     last_year = trend_info.get("last_year", "N/A")
     pct_change = trend_info.get("pct_change", 0)
@@ -45,7 +46,7 @@ def interpret_ddi_trend(trend_info: dict, config: AnalysisConfig) -> str:
     if direction == "increasing" and significant:
         lines.append(
             f"⚠️  SIGNAL DETECTED: The Diagnostic Delay Index (DDI) shows a "
-            f"statistically significant INCREASING trend (p={p_value:.4f}) "
+            f"statistically significant INCREASING trend (p_raw={p_value:.4f}, p_Bonferroni={p_bonf:.4f}) "
             f"from {first_year} to {last_year}."
         )
         lines.append(
@@ -65,7 +66,7 @@ def interpret_ddi_trend(trend_info: dict, config: AnalysisConfig) -> str:
     elif direction == "decreasing" and significant:
         lines.append(
             f"✅ POSITIVE SIGNAL: The DDI shows a statistically significant "
-            f"DECREASING trend (p={p_value:.4f}) from {first_year} to {last_year}."
+            f"DECREASING trend (p_raw={p_value:.4f}, p_Bonferroni={p_bonf:.4f}) from {first_year} to {last_year}."
         )
         lines.append(
             f"\nThis suggests that {condition} patients may be arriving at hospitals "
@@ -75,7 +76,7 @@ def interpret_ddi_trend(trend_info: dict, config: AnalysisConfig) -> str:
     elif not significant:
         lines.append(
             f"ℹ️  NO SIGNIFICANT TREND: The DDI does not show a statistically "
-            f"significant temporal trend (p={p_value:.4f}) over the period "
+            f"significant temporal trend (p_raw={p_value:.4f}, p_Bonferroni={p_bonf:.4f}) over the period "
             f"{first_year}–{last_year}."
         )
         lines.append(
@@ -83,7 +84,7 @@ def interpret_ddi_trend(trend_info: dict, config: AnalysisConfig) -> str:
             f"though this does not rule out localized or subgroup-level changes."
         )
     else:
-        lines.append(f"Trend direction: {direction} (p={p_value:.4f})")
+        lines.append(f"Trend direction: {direction} (p_raw={p_value:.4f}, p_Bonferroni={p_bonf:.4f})")
 
     # Magnitude
     if pct_change is not None and not (isinstance(pct_change, float) and (pct_change != pct_change)):
@@ -158,6 +159,17 @@ def interpret_regional_comparison(
         lines.append(
             f"\nRelatively uniform DDI across regions, suggesting similar "
             f"patterns of disease severity at presentation."
+        )
+
+    # Kruskal-Wallis full test
+    kw_full = comparison.get("regional_comparison_full", {})
+    if kw_full.get("significant"):
+        effect = kw_full.get("effect_interpretation", "")
+        lines.append(
+            f"\n✅ Kruskal-Wallis H-test (per-admission severity distributions): "
+            f"H={kw_full['statistic']:.2f}, p={kw_full['p_value']:.4f}, "
+            f"effect size ε²={kw_full['effect_size_epsilon_sq']:.3f} ({effect}). "
+            f"Tested across {kw_full['n_groups']} regions ({kw_full.get('n_total_admissions', 0):,} admissions)."
         )
 
     # Top/bottom regions

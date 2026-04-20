@@ -176,5 +176,16 @@ def feature_engineering_pipeline(
     """
     df = compute_severity_score(df, config)
     df = add_age_groups(df, config)
+    
+    if config.ddi.severity_threshold_fixed is None:
+        global_threshold = df["severity_score"].quantile(
+            config.ddi.severity_threshold_percentile / 100.0
+        )
+        config.ddi.severity_threshold_fixed = global_threshold
+        logger.info(
+            f"Global severity threshold fixed at {global_threshold:.4f} "
+            f"(P{config.ddi.severity_threshold_percentile} of full dataset, n={len(df)})"
+        )
+        
     df = classify_high_severity(df, config)
     return df

@@ -73,9 +73,12 @@ DDI = (number of high-severity cases) / (total cases)
 
 ### Statistical Analysis
 
-- **Linear Regression** and **Mann-Kendall tests** are used for temporal trend detection.
+- **Regression & Non-parametric Tests**: Linear regression and Mann-Kendall tests with **Bonferroni correction** are used for temporal trend detection.
+- **True Kruskal-Wallis Analysis**: Evaluates full admission severity distributions across regions to establish valid geographic disparities beyond scalar aggregates.
+- **Natural Experiment Validation (ITS)**: Segmented regression and Interrupted Time Series around the 2020/2021 COVID-19 pandemic shock to validate DDI behavior during known diagnostic delays.
+- **Sensitivity Analysis**: Assesses robustness of trends by generating outcomes across perturbed scenarios with disparate severity weights.
+- **Bootstrap Resampling**: Calculates non-parametric 95% Confidence Intervals for robust temporal metric displays.
 - **Age-stratified analysis** is applied to control for demographic confounding variables.
-- **Regional ranking** determines outcome comparisons across distinct localities.
 
 ---
 

@@ -214,3 +214,56 @@ def compute_regional_temporal_metrics(
         result_df = result_df.sort_values([cols.year, cols.municipality]).reset_index(drop=True)
 
     return result_df
+
+
+def compute_ddi_confidence_intervals(
+    df: pd.DataFrame,
+    config: AnalysisConfig,
+    n_bootstrap: int = 1000,
+    ci_level: float = 0.95,
+) -> pd.DataFrame:
+    """Compute bootstrap confidence intervals for DDI per year.
+    
+    Returns temporal_metrics enriched with ddi_ci_lower and ddi_ci_upper columns.
+    Bootstraps by resampling admissions within each year independently.
+    
+    Args:
+        df: Full feature-engineered DataFrame.
+        config: Analysis configuration.
+        n_bootstrap: Number of bootstrap iterations.
+        ci_level: Confidence interval level (default 0.95 = 95% CI).
+        
+    Returns:
+        DataFrame with columns: year, ddi, ddi_ci_lower, ddi_ci_upper, total_cases.
+    """
+    cols = config.columns
+    alpha = 1.0 - ci_level
+    rng = np.random.default_rng(42)
+    
+    results = []
+    
+    for year, group in df.groupby(cols.year):
+        n = len(group)
+        if n < config.min_cases_threshold:
+            continue
+        
+        observed_ddi = group["high_severity"].mean()
+        
+        # Bootstrap resampling
+        boot_ddis = np.array([
+            rng.choice(group["high_severity"].values, size=n, replace=True).mean()
+            for _ in range(n_bootstrap)
+        ])
+        
+        ci_lower = float(np.percentile(boot_ddis, alpha / 2 * 100))
+        ci_upper = float(np.percentile(boot_ddis, (1 - alpha / 2) * 100))
+        
+        results.append({
+            cols.year: int(year),
+            "ddi": float(observed_ddi),
+            "ddi_ci_lower": ci_lower,
+            "ddi_ci_upper": ci_upper,
+            "total_cases": n,
+        })
+    
+    return pd.DataFrame(results).sort_values(cols.year).reset_index(drop=True)

@@ -28,6 +28,91 @@ from src.metrics import (
 from src.analysis import run_full_analysis, detect_temporal_trend
 from src.interpretation import generate_full_report
 from src.generate_data import generate_synthetic_data
+from src.covid_analysis import is_covid_condition
+from src.sensitivity_analysis import run_sensitivity_analysis, sensitivity_summary
+from src.metrics import compute_ddi_confidence_intervals
+
+import plotly.graph_objects as go
+import plotly.express as px
+
+def plot_ddi_temporal_plotly(
+    temporal_metrics: pd.DataFrame,
+    ddi_ci: pd.DataFrame,
+    trend_info: dict,
+    config,
+    show_covid_band: bool = True,
+) -> go.Figure:
+    """DDI time series with CI band, trend line, and COVID annotation."""
+    year_col = config.columns.year
+    
+    fig = go.Figure()
+    
+    # CI band
+    if ddi_ci is not None and "ddi_ci_lower" in ddi_ci.columns:
+        fig.add_trace(go.Scatter(
+            x=list(ddi_ci[year_col]) + list(ddi_ci[year_col])[::-1],
+            y=list(ddi_ci["ddi_ci_upper"]) + list(ddi_ci["ddi_ci_lower"])[::-1],
+            fill="toself",
+            fillcolor="rgba(46, 134, 193, 0.15)",
+            line=dict(color="rgba(255,255,255,0)"),
+            name="95% CI (bootstrap)",
+            hoverinfo="skip",
+        ))
+    
+    # DDI line
+    fig.add_trace(go.Scatter(
+        x=temporal_metrics[year_col],
+        y=temporal_metrics["ddi"],
+        mode="lines+markers",
+        line=dict(color="#2E86C1", width=2.5),
+        marker=dict(size=7, color="#2E86C1"),
+        name="DDI",
+        hovertemplate="<b>Year:</b> %{x}<br><b>DDI:</b> %{y:.1%}<extra></extra>",
+    ))
+    
+    # OLS trend line
+    slope = trend_info.get("slope")
+    intercept = trend_info.get("intercept")
+    if slope is not None and intercept is not None and not np.isnan(slope):
+        x_vals = temporal_metrics[year_col].values
+        y_trend = slope * x_vals + intercept
+        p_val = trend_info.get("p_value_bonferroni", trend_info.get("p_value", 1.0))
+        sig_label = f" (p={p_val:.4f}, {'sig.' if p_val < 0.05 else 'n.s.'})"
+        fig.add_trace(go.Scatter(
+            x=x_vals,
+            y=y_trend,
+            mode="lines",
+            line=dict(color="#E74C3C", width=1.5, dash="dash"),
+            name=f"OLS trend{sig_label}",
+        ))
+    
+    # COVID shading
+    if show_covid_band:
+        fig.add_vrect(
+            x0=2019.5, x1=2021.5,
+            fillcolor="rgba(231, 76, 60, 0.08)",
+            layer="below",
+            line_width=0,
+            annotation_text="COVID-19",
+            annotation_position="top left",
+            annotation=dict(font_size=11, font_color="#E74C3C"),
+        )
+    
+    fig.update_layout(
+        title=dict(text=f"Diagnostic Delay Index — {config.condition.condition_name}", font_size=16),
+        xaxis_title="Year",
+        yaxis_title="DDI (proportion high-severity)",
+        yaxis_tickformat=".0%",
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        plot_bgcolor="white",
+        paper_bgcolor="white",
+        height=420,
+        margin=dict(l=60, r=20, t=80, b=60),
+    )
+    fig.update_xaxes(showgrid=True, gridcolor="#f0f0f0")
+    fig.update_yaxes(showgrid=True, gridcolor="#f0f0f0")
+    
+    return fig
 
 logging.basicConfig(level=logging.WARNING)
 
@@ -206,6 +291,7 @@ if run_analysis:
         min_cases_threshold=min_cases,
         output_dir="outputs",
     )
+    config.ddi.reset_fixed_threshold()
 
     with st.spinner("Running analysis pipeline..."):
         # Load/generate data
@@ -227,18 +313,28 @@ if run_analysis:
 
         # Pipeline
         try:
-            df = preprocess_pipeline(data_path, config)
-            if len(df) == 0:
+            df_preprocessed = preprocess_pipeline(data_path, config)
+            if len(df_preprocessed) == 0:
                 st.error(f"No records found for condition {condition_name} with prefixes {icd_prefixes}")
                 st.stop()
+            
+            st.session_state["df_preprocessed"] = df_preprocessed.copy()
 
-            df = feature_engineering_pipeline(df, config)
+            df = feature_engineering_pipeline(df_preprocessed, config)
             temporal_metrics = compute_temporal_metrics(df, config)
+            ddi_ci = compute_ddi_confidence_intervals(df, config)
+            if not ddi_ci.empty:
+                temporal_metrics = temporal_metrics.merge(
+                    ddi_ci[[config.columns.year, 'ddi_ci_lower', 'ddi_ci_upper']], 
+                    on=config.columns.year, 
+                    how='left'
+                )
+
             regional_metrics = compute_regional_metrics(df, config)
             age_adjusted_metrics = compute_age_adjusted_metrics(df, config)
             regional_temporal_metrics = compute_regional_temporal_metrics(df, config)
             analysis_results = run_full_analysis(
-                temporal_metrics, regional_metrics, age_adjusted_metrics, config
+                temporal_metrics, regional_metrics, age_adjusted_metrics, config, df_admissions=df
             )
             report = generate_full_report(analysis_results, config)
 
@@ -308,10 +404,12 @@ if "results" in st.session_state:
     st.markdown("---")
 
     # ── Tabs ─────────────────────────────────────────────────────────────
-    tab_trends, tab_regional, tab_age, tab_report, tab_data = st.tabs([
+    tab_trends, tab_regional, tab_age, tab_covid, tab_sensitivity, tab_report, tab_data = st.tabs([
         "📈 Temporal Trends",
         "🗺️ Regional Analysis",
         "👥 Age-Adjusted",
+        "🦠 COVID Analysis",
+        "⚖️ Sensitivity",
         "📋 Clinical Report",
         "🗄️ Raw Data",
     ])
@@ -336,27 +434,23 @@ if "results" in st.session_state:
             st.info(f"ℹ️ No statistically significant trend (p={ddi_trend.get('p_value', 0):.4f})")
 
         # Charts
-        c1, c2 = st.columns(2)
-
-        with c1:
-            st.line_chart(
-                temporal_metrics.set_index(cols.year)[["ddi"]],
-                use_container_width=True,
-            )
-            st.caption("Diagnostic Delay Index over time")
-
-        with c2:
-            st.line_chart(
-                temporal_metrics.set_index(cols.year)[["mortality_rate", "icu_rate"]],
-                use_container_width=True,
-            )
-            st.caption("Mortality and ICU rates over time")
-
-        st.line_chart(
-            temporal_metrics.set_index(cols.year)[["avg_severity"]],
-            use_container_width=True,
+        st.plotly_chart(
+            plot_ddi_temporal_plotly(
+                temporal_metrics, temporal_metrics, ddi_trend, config, 
+                show_covid_band=True
+            ),
+            use_container_width=True
         )
-        st.caption("Average Severity Score over time")
+
+        c1, c2 = st.columns(2)
+        with c1:
+            fig1 = px.line(temporal_metrics, x=cols.year, y=["mortality_rate", "icu_rate"], 
+                          title="Mortality & ICU Rates", markers=True)
+            st.plotly_chart(fig1, use_container_width=True)
+        with c2:
+            fig2 = px.line(temporal_metrics, x=cols.year, y="avg_severity", 
+                          title="Average Severity Score", markers=True)
+            st.plotly_chart(fig2, use_container_width=True)
 
         st.subheader("📊 Metrics Table")
         display_cols = [cols.year, "ddi", "mortality_rate", "icu_rate", "avg_severity", "avg_los", "total_cases"]
@@ -379,11 +473,13 @@ if "results" in st.session_state:
         st.subheader(f"Regional Analysis — {config.condition.condition_name}")
 
         if len(regional_metrics) > 0:
-            st.bar_chart(
-                regional_metrics.set_index(cols.municipality)["ddi"].head(20),
-                use_container_width=True,
+            fig_reg = px.bar(
+                regional_metrics.sort_values("ddi", ascending=False).head(20),
+                x=cols.municipality, y="ddi",
+                title=f"DDI by Region (top {min(20, len(regional_metrics))} regions)",
+                color="ddi", color_continuous_scale="RdYlGn_r"
             )
-            st.caption(f"DDI by Region (top {min(20, len(regional_metrics))} regions)")
+            st.plotly_chart(fig_reg, use_container_width=True)
 
             st.subheader("📊 Regional Rankings")
             regional_display = regional_metrics.copy()
@@ -406,15 +502,11 @@ if "results" in st.session_state:
         st.subheader(f"Age-Adjusted Analysis — {config.condition.condition_name}")
 
         if len(age_adjusted_metrics) > 0 and "age_group" in age_adjusted_metrics.columns:
-            # Pivot for chart
-            pivot = age_adjusted_metrics.pivot_table(
-                values="ddi",
-                index=cols.year,
-                columns="age_group",
-                aggfunc="mean",
+            fig_age = px.line(
+                age_adjusted_metrics, x=cols.year, y="ddi", color="age_group",
+                title="DDI by Age Group over time", markers=True
             )
-            st.line_chart(pivot, use_container_width=True)
-            st.caption("DDI by Age Group over time")
+            st.plotly_chart(fig_age, use_container_width=True)
 
             # Age-specific trends
             age_trends = analysis_results.get("age_adjusted_trends", {})
@@ -431,6 +523,49 @@ if "results" in st.session_state:
                 st.dataframe(pd.DataFrame(trend_data), use_container_width=True)
         else:
             st.warning("No age-adjusted data available.")
+
+    with tab_covid:
+        st.subheader(f"COVID-19 Natural Experiment — {config.condition.condition_name}")
+        if is_covid_condition(config.condition.icd_prefixes):
+            st.warning("This analysis is disabled for COVID-related conditions (e.g., Pneumonia), as the shock is not exogenous.")
+        else:
+            if "covid_its" in analysis_results:
+                its = analysis_results["covid_its"]
+                comp = analysis_results["covid_analysis"]
+                
+                c1, c2 = st.columns(2)
+                with c1:
+                    st.metric("Immediate DDI Change (ITS)", 
+                              f"{its.get('level_change_at_covid', 0):+.2%}",
+                              help="Estimated level change in 2020")
+                    st.metric("DDI Trend Slope Change", 
+                              f"{its.get('slope_change_after_covid', 0)*100:+.2f}%/yr")
+                with c2:
+                    st.write("**Interrupted Time Series (ITS) Results**")
+                    st.write(f"- Pre-COVID Mean: {comp.get('pre_covid_mean', 0):.1%}")
+                    st.write(f"- COVID Period Mean: {comp.get('covid_mean', 0):.1%}")
+                    st.write(f"- Post-COVID Mean: {comp.get('post_covid_mean', 0):.1%}")
+                
+                st.info(f"**Interpretation:** {its.get('interpretation', 'No valid ITS result')}")
+            else:
+                st.write("Run full analysis to see COVID-19 effect outcomes.")
+
+    with tab_sensitivity:
+        st.subheader("⚖️ Sensitivity Analysis (Severity Weights)")
+        st.write("Test whether the observed DDI trend is robust to different severity weight assignments.")
+        
+        if st.checkbox("Run Sensitivity Analysis"):
+            with st.spinner("Running pipeline for multiple weight combinations..."):
+                sens_df = run_sensitivity_analysis(st.session_state["df_preprocessed"], config)
+                sens_summary = sensitivity_summary(sens_df)
+                
+                st.write(f"**Robustness:** {sens_summary.get('direction_robustness_pct', 0):.1f}% of combinations agree with the baseline trend.")
+                if sens_summary.get("conclusion_robust"):
+                    st.success("✅ The trend conclusion is robust to weight changes.")
+                else:
+                    st.warning("⚠️ The trend conclusion is sensitive to weight changes.")
+                    
+                st.dataframe(sens_df, use_container_width=True)
 
     with tab_report:
         st.subheader("📋 Clinical Interpretation Report")

@@ -47,6 +47,9 @@ class DDIConfig:
     severity_threshold_percentile: float = 75.0  # percentile to define "high severity"
     severity_threshold_fixed: Optional[float] = None  # if set, overrides percentile
 
+    def reset_fixed_threshold(self):
+        """Reset fixed threshold so it's recalculated on next pipeline run."""
+        self.severity_threshold_fixed = None
 
 @dataclass
 class ConditionFilter:
